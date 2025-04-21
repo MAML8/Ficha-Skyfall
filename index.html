@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Skyfall RPG</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/jquery-confirm.min.css">
+</head>
+<body>
+    <form id="character-sheet">
+        <header class="sheet-header">
+            <h1>SKYFALL RPG</h1>
+            <button type="reset" class="clear-button">LIMPAR FICHA</button>
+        </header>
+
+        <section class="main-info">
+            <div class="char-details">
+                <div class="field-group inline">
+                    <label for="char-name">Nome da Personagem:</label>
+                    <input type="text" id="char-name" name="char-name">
+                </div>
+                <div class="field-group inline">
+                    <label for="char-player">Jogador(a):</label>
+                    <input type="text" id="char-player" name="char-player">
+                </div>
+                 <div class="field-group inline">
+                    <label for="char-pronouns">Pronomes:</label>
+                    <input type="text" id="char-pronouns" name="char-pronouns" size="1">
+                </div>
+                 <div class="field-group inline">
+                    <label for="char-level">Nível/</label><label for="char-class">Classe:</label>
+                    <input type="number" id="char-level" name="char-level" class="very-small-input">
+                    <input type="text" id="char-class" name="char-class" size="15">
+                 </div>
+                <div class="field-group inline">
+                    <label for="char-path">Trilha:</label>
+                    <input type="text" id="char-path" name="char-path" size="10">
+                </div>
+                <div class="field-group inline">
+                    <label for="char-legacy">Legado:</label>
+                    <input type="text" id="char-legacy" name="char-legacy" size="10">
+                </div>
+                <div class="field-group inline">
+                    <label for="char-heritage">Herança:</label>
+                    <input type="text" id="char-heritage" name="char-heritage" size="10">
+                </div>
+                <div class="field-group inline">
+                    <label for="char-background">Antecedente:</label>
+                    <input type="text" id="char-background" name="char-background" size="10">
+                </div>
+                 <div class="field-group inline">
+                    <label for="char-curse">Maldição:</label>
+                    <input type="text" id="char-curse" name="char-curse" size="10">
+                </div>
+            </div>
+
+            <div class="attributes-and-points">
+                <div class="attributes">
+                    <h3>Atributos & Proteção</h3>
+                    <div class="attr-prot-box">
+                        <label for="attr-for">FOR</label>
+                        <input type="number" id="attr-for" name="attr-for">
+                        <label for="prot-for" class="sub-label">Proteção</label>
+                        <input type="number" id="prot-for" name="prot-for">
+                    </div>
+                    <div class="attr-prot-box">
+                        <label for="attr-des">DES</label>
+                        <input type="number" id="attr-des" name="attr-des">
+                        <label for="prot-des" class="sub-label">Proteção</label>
+                        <input type="number" id="prot-des" name="prot-des">
+                    </div>
+                    <div class="attr-prot-box">
+                        <label for="attr-con">CON</label>
+                        <input type="number" id="attr-con" name="attr-con">
+                        <label for="prot-con" class="sub-label">Proteção</label>
+                        <input type="number" id="prot-con" name="prot-con">
+                    </div>
+                    <div class="attr-prot-box">
+                        <label for="attr-int">INT</label>
+                        <input type="number" id="attr-int" name="attr-int">
+                        <label for="prot-int" class="sub-label">Proteção</label>
+                        <input type="number" id="prot-int" name="prot-int">
+                    </div>
+                    <div class="attr-prot-box">
+                        <label for="attr-sab">SAB</label>
+                        <input type="number" id="attr-sab" name="attr-sab">
+                        <label for="prot-sab" class="sub-label">Proteção</label>
+                        <input type="number" id="prot-sab" name="prot-sab">
+                    </div>
+                    <div class="attr-prot-box">
+                        <label for="attr-car">CAR</label>
+                        <input type="number" id="attr-car" name="attr-car">
+                        <label for="prot-car" class="sub-label">Proteção</label>
+                        <input type="number" id="prot-car" name="prot-car">
+                    </div>
+                </div>
+                <div class="resources">
+                    <div class="point-box">
+                        <label>Pontos de Vida</label>
+                        <input type="number" name="pv-atuais" placeholder="Atuais"> /
+                        <input type="number" name="pv-maximos" placeholder="Máximos">
+                        <label for="pv-temp">PV Temp:</label> <input type="number" name="pv-temp" size="5">
+                    </div>
+                    <div class="point-box">
+                        <label>Pontos de Ênfase</label> <input type="number" name="enfase-atual" placeholder="Atuais">
+                        <input type="number" name="enfase-total" placeholder="Totais">
+                        <label for="enfase-temp">PE Temp:</label> <input type="number" name="enfase-temp" size="5">
+                   </div>
+                     <div class="point-box">
+                         <label>Dados de Vida</label>
+                         <input type="number" name="dv-usados" placeholder="Usados"> /
+                         <input type="text" name="dv-totais" placeholder="Total (e.g. 5d8)">
+                         <label for="dv-temp">Dv Temp:</label> <input type="number" name="dv-temp" size="5">
+                     </div>
+                </div>
+                <div class="resources">
+                     <div class="point-box">
+                        <label for="catarse-pontos">Pontos de Catarse</label>
+                        <input type="number" id="catarse-pontos" name="catarse-pontos">
+                     </div>
+                     <div class="point-box">
+                         <label>Testes de Morte (Sucessos)</label>
+                         <input type="checkbox" name="death-s1" id="death-s1"><label for="death-s1" class="hidden-label">S1</label>
+                         <input type="checkbox" name="death-s2" id="death-s2"><label for="death-s2" class="hidden-label">S2</label>
+                         <input type="checkbox" name="death-s3" id="death-s3"><label for="death-s3" class="hidden-label">S3</label>
+                     </div>
+                     <div class="point-box">
+                         <label>Pontos de Sombra</label>
+                         <input type="checkbox" name="shadow-p1" id="shadow-p1"><label for="shadow-p1" class="hidden-label">P1</label>
+                         <input type="checkbox" name="shadow-p2" id="shadow-p2"><label for="shadow-p2" class="hidden-label">P2</label>
+                         <input type="checkbox" name="shadow-p3" id="shadow-p3"><label for="shadow-p3" class="hidden-label">P3</label>
+                         <input type="checkbox" name="shadow-p4" id="shadow-p4"><label for="shadow-p4" class="hidden-label">P4</label>
+                         <input type="checkbox" name="shadow-p5" id="shadow-p5"><label for="shadow-p5" class="hidden-label">P5</label>
+                     </div>
+                </div>
+            </div>
+
+            <div class="combat-stats">
+                 <div class="stat-box"> <label>Bônus de Prof.</label> <input type="number" name="bonus-prof"> </div>
+                 <div class="stat-box"> <label>Iniciativa</label> <input type="number" name="iniciativa"> </div>
+                 <div class="stat-box"> <label>Deslocamento</label> <input type="text" name="deslocamento"> </div>
+                 <div class="stat-box"> <label>Redução de Dano</label> <input type="number" name="rd"> </div>
+            </div>
+
+            <div class="skills-proficiencies">
+                <div class="skills">
+                    <h3>Perícias</h3>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-apresentacao" id="prof-apresentacao">
+                        <label for="val-apresentacao">Apresentação:</label>
+                        <input type="number" name="val-apresentacao" id="val-apresentacao">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-aptidao" id="prof-aptidao">
+                        <label for="val-aptidao">Aptidão (<input type="text" size=10>):</label>
+                        <input type="number" name="val-aptidao" id="val-aptidao">
+                    </div>
+                    <button type="button" id="mais-aptidao" name="mais-aptidao">+</button>
+                    <input type="hidden" name="quant-aptidao" id="quant-aptidao" value=1>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-arcanismo" id="prof-arcanismo">
+                        <label for="val-arcanismo">Arcanismo:</label>
+                        <input type="number" name="val-arcanismo" id="val-arcanismo">
+                    </div>
+                     <div class="skill-entry">
+                        <input type="checkbox" name="prof-cultura" id="prof-cultura">
+                        <label for="val-cultura">Cultura:</label>
+                        <input type="number" name="val-cultura" id="val-cultura">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-diplomacia" id="prof-diplomacia">
+                        <label for="val-diplomacia">Diplomacia:</label>
+                        <input type="number" name="val-diplomacia" id="val-diplomacia">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-doutrinas" id="prof-doutrinas">
+                        <label for="val-doutrinas">Doutrinas:</label>
+                        <input type="number" name="val-doutrinas" id="val-doutrinas">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-furtividade" id="prof-furtividade">
+                        <label for="val-furtividade">Furtividade:</label>
+                        <input type="number" name="val-furtividade" id="val-furtividade">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-intimidacao" id="prof-intimidacao">
+                        <label for="val-intimidacao">Intimidação:</label>
+                        <input type="number" name="val-intimidacao" id="val-intimidacao">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-intuicao" id="prof-intuicao">
+                        <label for="val-intuicao">Intuição:</label>
+                        <input type="number" name="val-intuicao" id="val-intuicao">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-magitec" id="prof-magitec">
+                        <label for="val-magitec">Magitec:</label>
+                        <input type="number" name="val-magitec" id="val-magitec">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-malandragem" id="prof-malandragem">
+                        <label for="val-malandragem">Malandragem:</label>
+                        <input type="number" name="val-malandragem" id="val-malandragem">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-manipulacao" id="prof-manipulacao">
+                        <label for="val-manipulacao">Manipulação:</label>
+                        <input type="number" name="val-manipulacao" id="val-manipulacao">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-medicina" id="prof-medicina">
+                        <label for="val-medicina">Medicina:</label>
+                        <input type="number" name="val-medicina" id="val-medicina">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-natureza" id="prof-natureza">
+                        <label for="val-natureza">Natureza:</label>
+                        <input type="number" name="val-natureza" id="val-natureza">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-percepcao" id="prof-percepcao">
+                        <label for="val-percepcao">Percepção:</label>
+                        <input type="number" name="val-percepcao" id="val-percepcao">
+                    </div>
+                    <div class="skill-entry">
+                        <input type="checkbox" name="prof-preparo" id="prof-preparo">
+                        <label for="val-preparo">Preparo Fisíco:</label>
+                        <input type="number" name="val-preparo" id="val-preparo">
+                    </div>
+                </div>
+
+                <div class="other-proficiencies">
+                    <h3>Idiomas e Outras Proficiências</h3>
+                    <textarea name="languages-proficiencies" rows="4"></textarea>
+                    <h3>Legado e Herança</h3>
+                    <textarea name="legado-herança" rows="4"></textarea>
+                    <h3>Antecedente</h3>
+                    <textarea name="background" rows="4"></textarea>
+                    <h3>Maldição</h3>
+                    <textarea name="curse" rows="4"></textarea>
+                </div>
+            </div>
+
+            <div class="attacks-equipment">
+                <div class="attacks">
+                    <h3>Ataques</h3>
+                    <div class="attack-header">
+                        <span>Nome</span><span>Bônus</span><span>Dano</span>
+                    </div>
+                    <div class="attack-entry">
+                        <input type="text" name="atk1-nome">
+                        <input type="text" name="atk1-bonus" size="5">
+                        <input type="text" name="atk1-dano" size="10">
+                        <button type="button" name="atk1-roll">roll</button>
+                    </div>
+                    <div class="attack-entry">
+                        <input type="text" name="atk2-nome">
+                        <input type="text" name="atk2-bonus" size="5">
+                        <input type="text" name="atk2-dano" size="10">
+                        <button type="button" name="atk2-roll">roll</button>
+                    </div>
+                    <div class="edit">
+                        <button type="button" name="mais-ataque" id="mais-ataque">+</button>
+                    </div>
+                    <input type="hidden" name="quant-ataque" id="quant-ataque" value="2">
+                </div>
+                <div class="equipment">
+                    <h3>Equipamentos Diversos</h3>
+                    <textarea name="equipment-misc" rows="6"></textarea>
+                    <div class="field-group inline">
+                        <label>SP:</label> <input type="number" name="money-sp">
+                        <label>ST:</label> <input type="number" name="money-st">
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <section class="inventory-detailed">
+            <h2>Inventário Detalhado</h2>
+            <div class="totals">
+                <label>Volume de Carga Atual:</label> <input type="number" name="carga-atual"> /
+                <label>Limite:</label> <input type="number" name="carga-limite">
+            </div>
+                <div class="totals">
+                <label>Fragmentos Arcanos Atual:</label> <input type="number" name="frag-atual"> /
+                <label>Limite:</label> <input type="number" name="frag-limite">
+            </div>
+
+            <div class="inventory-header">
+                <span>Nome</span>
+                <span>Vol</span> <span>Frag</span> <span>Descritores / Notas</span>
+            </div>
+
+            <div class="inventory-item">
+                <input type="text" name="item1-nome" placeholder="Nome do item">
+                <input type="number" name="item1-vol" class="small-input">
+                <input type="number" name="item1-frag" class="small-input">
+                <input type="text" name="item1-desc" placeholder="Descrição...">
+            </div>
+            <div class="inventory-item">
+                <input type="text" name="item2-nome" placeholder="Nome do item">
+                <input type="number" name="item2-vol" class="small-input">
+                <input type="number" name="item2-frag" class="small-input">
+                <input type="text" name="item2-desc" placeholder="Descrição...">
+            </div>
+            <div class="edit">
+                <button type="button" id="mais-item">+</button>
+            </div>
+            <input type="hidden" name="quant-item" id="quant-item" value=2>
+        </section>
+
+        <section class="abilities-spells">
+            <h2>Habilidades / Magias</h2>
+
+            <div class="ability-block">
+                <div class="ability-stats">
+                    <div class="field-group inline">
+                        <label for="magic-attr">Atributo-Chave de Conjuração:</label>
+                        <select name="magic-attr" id="magic-attr">
+                            <option value="int">Int</option>
+                            <option value="sab">Sab</option>
+                            <option value="car">Car</option>
+                        </select>
+                    </div>
+                    <div class="field-group inline">
+                        <label for="attack-bonus">Bônus de Ataque:</label>
+                        <input type="text" id="attack-bonus" name="attack-bonus" size="5">
+                    </div>
+                    <div class="field-group inline">
+                        <button type="button">roll</button>
+                    </div>
+            </div>
+            <div class="abilities">
+                <h3>Habilidades</h3>
+                <div class="edit">
+                    <button class="mais-habilidade" type="button" id="mais-habilidade">+</button>
+                </div>
+            </div>
+            <div class="abilities">
+                <h3>Truques</h3>
+                <div class="edit">
+                    <button class="mais-habilidade" type="button" id="mais-truque">+</button>
+                </div>
+            </div>
+            <div class="abilities">
+                <h3>Camada Superficial</h3>
+                <div class="edit">
+                    <button class="mais-habilidade" type="button" id="mais-superficial">+</button>
+                </div>
+            </div>
+            <div class="abilities">
+                <h3>Camada Rasa</h3>
+                <div class="edit">
+                    <button class="mais-habilidade" type="button" id="mais-rasa">+</button>
+                </div>
+            </div>
+            <div class="abilities">
+                <h3>Camada Profunda</h3>
+                <div class="edit">
+                    <button class="mais-habilidade" type="button" id="mais-profunda">+</button>
+                </div>
+            </div>
+        </section>
+            
+
+        <div class="ability-card">
+            <div class="ability-header">
+                <span class="icon">▶</span>
+                <span class="ability-name">RAIO DE FOGO</span>
+                <span class="ability-cost">1 PE</span>
+                <span class="edit"><button type="button" id="edit-ability1">edit</button></span>
+            </div>
+            <div class="ability-tags">
+                <span class="tag">ATAQUE</span>
+                <span class="tag">MÁGICO</span>
+                <span class="tag tag-igneo">ÍGNEO</span>
+            </div>
+            <div class="ability-body">
+                <p><strong>Alcance:</strong> 9 m (6 q)</p>
+                <p><strong>Alvo:</strong> uma criatura.</p>
+                <p><strong>Duração:</strong> instantânea.</p>
+                <p><strong>Ataque:</strong> mágico vs DES.</p>
+                <p><strong>Acerto:</strong> 2d6 pontos de dano <span class="inline-tag">ÍGNEO</span>.</p>
+                <p><strong>Erro:</strong> metade do dano.</p>
+                <p><strong>Efeito:</strong> a criatura fica engolfada em chamas. Enquanto estiver dessa forma, ela está <span class="emphasis">Desprotegida (todas)</span> até usar uma ação para apagar o fogo.</p>
+                <p><strong>Especial:</strong> você só pode usar essa habilidade caso esteja empunhando um pedaço de carvão em brasa.</p>
+            </div>
+            <div class="ability-upgrade">
+                <span class="icon">▷</span>
+                <span class="upgrade-cost">+1 PE</span>
+                <span class="upgrade-type">[MUDA]</span>
+                <p class="upgrade-desc"><strong>Alvo:</strong> criaturas em uma esfera de 3 m (2 q) de raio dentro do alcance.</p>
+            </div>
+        </div>
+    </form>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-confirm.min.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'); /* Example: Roboto */
+
+.hidden{
+    display: none;
+}
+/* Reset básico e fonte */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+#character-sheet {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Cabeçalho */
+.sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+.sheet-header h1 { margin: 0; font-size: 2em; }
+.clear-button { padding: 8px 15px; background-color: #e74c3c; color: white; border: none; cursor: pointer; border-radius: 4px; }
+.clear-button:hover { background-color: #c0392b; }
+
+/* Seções */
+section { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
+section:last-child { border-bottom: none; }
+h2, h3 { color: #555; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+/* Campos e Labels */
+label { display: block; margin-bottom: 3px; font-weight: bold; font-size: 0.9em; color: #444; }
+input[type="text"], input[type="number"], textarea {
+    width: 95%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;
+    margin-bottom: 10px; box-sizing: border-box;
+}
+input[type="number"] { width: 80px; }
+input.very-small-input { width: 50px; } /* Para campo Nível */
+input[type="checkbox"] { margin-right: 5px; vertical-align: middle; }
+textarea { resize: vertical; }
+.field-group { margin-bottom: 10px; }
+.field-group.inline { display: inline-block; margin-right: 15px; vertical-align: top; }
+.field-group.inline label { display: inline-block; margin-right: 5px; }
+.field-group.inline input { display: inline-block; }
+input[size] { width: auto; }
+label.hidden-label { /* Para labels de checkboxes que só servem para 'for' */
+    border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px;
+    overflow: hidden; padding: 0; position: absolute; width: 1px;
+}
+label.sub-label { font-size: 0.75em; font-weight: normal; margin-top: 2px; display: block; }
+
+/* Layouts específicos */
+.skills-proficiencies, .attacks-equipment {
+    display: flex; flex-wrap: wrap; gap: 20px;
+}
+
+/* 3: Estilo Atributos & Proteção */
+.attributes {
+    display: flex; flex-wrap: wrap; gap: 10px; flex-basis: 100%; /* Ocupa linha inteira */
+    border: 1px solid #eee; padding: 10px; margin-bottom: 10px;
+}
+.attributes h3 { width: 100%; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid #ddd; }
+.attr-prot-box {
+    border: 1px solid #ddd; padding: 10px; text-align: center;
+    min-width: 70px; flex-grow: 1;
+}
+.attr-prot-box label { /* Label principal (FOR, DES...) */
+    font-size: 0.9em; display: block; margin-bottom: 5px; font-weight: bold;
+}
+.attr-prot-box input {
+    width: 50px; text-align: center; font-size: 1.1em; margin: 0 auto 5px auto; display: block;
+}
+.attr-prot-box input[type="number"] { /* Garante tamanho */
+     width: 50px;
+}
+.attr-prot-box label.sub-label { /* Label 'Proteção' */
+     margin-bottom: 3px;
+}
+
+.resources { flex: 1; min-width: 200px; display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px;} /* Ajuste para empilhar Catarse/Ênfase */
+.point-box { width: 230px; border: 1px solid #ddd; padding: 10px; text-align: center; }
+.point-box label { margin-bottom: 8px; display: block; }
+.point-box input { width: 70px; margin: 0 5px; text-align: center; }
+
+/* Combat stats (sem Proteção agora) */
+.combat-stats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
+.combat-stats .stat-box {
+    border: 1px solid #eee; padding: 8px; text-align: center;
+    flex: 1 1 100px; /* Flex-grow, flex-shrink, flex-basis */
+}
+.combat-stats .stat-box label { font-size: 0.8em; display: block; margin-bottom: 3px;}
+.combat-stats .stat-box input { width: 60px; margin: 0 auto; text-align: center; }
+
+
+/*
+.health-and-death {
+     display: flex; flex-wrap: wrap; gap: 15px; align-items: center;
+     margin-bottom: 15px; padding: 10px; border: 1px solid #eee;
+}
+.health, .hit-dice, .death-saves, .shadow-points { margin-right: 10px; }
+.health label, .hit-dice label, .death-saves label, .shadow-points label { margin-right: 5px; display: inline-block; font-weight: bold; }
+.health input, .hit-dice input { width: 70px; }
+*/
+
+input[type="checkbox"] {
+    margin: 0 8px 0 0px; 
+    width: 18px; height: 18px; 
+}
+
+/* 6: Layout de Perícias (simplificado) */
+.skills { flex-basis: 45%; min-width: 250px; #mais-aptidao{ display: none; width: 100%; height: 10px;}} /* Ajuste a largura conforme necessário */
+.skills:hover { #mais-aptidao{ display: block;}}
+.other-proficiencies { flex-basis: 45%; min-width: 250px; }
+.skills .skill-entry { display: flex; align-items: center; margin-bottom: 5px; }
+.skills .skill-entry input[type="checkbox"] { order: 1; margin-right: 8px; flex-shrink: 0;}
+.skills .skill-entry label { order: 2; flex-grow: 1; margin-bottom: 0; font-weight: normal; }
+.skills .skill-entry input[type="number"] { order: 3; width: 50px; margin-left: 10px; margin-bottom: 0; flex-shrink: 0; }
+
+.attacks { flex: 1; min-width: 250px; }
+.equipment { flex: 1; min-width: 250px; }
+.attacks .edit, .inventory-detailed .edit,  .attack-entry .edit, .inventory-item .edit, .skill-entry .edit{display: none;}
+.attacks:hover .edit, .inventory-detailed:hover .edit, .attack-entry:hover .edit, .inventory-item:hover .edit, .skill-entry:hover .edit{display:inherit;}
+.attacks .attack-header, .inventory-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; padding-bottom: 3px; border-bottom: 1px solid #ccc; font-size: 0.9em; }
+.attacks .attack-header span, .inventory-header span { flex: 1; padding: 0 5px; }
+.attacks .attack-header span:nth-child(1), .inventory-header span:nth-child(1) { flex-basis: 40%; } /* Nome maior */
+.attacks .attack-entry, .inventory-item { display: flex; gap: 10px; margin-bottom: 5px; align-items: center; }
+.attacks .attack-entry input, .inventory-item input { margin-bottom: 0; flex: 1; }
+.attacks .attack-entry input[name*="bonus"], .attacks .attack-entry input[name*="dano"] { flex-grow: 0; flex-basis: 70px;}
+
+.inventory-item input[name*="vol"], .inventory-item input[name*="frag"] { flex-grow: 0; flex-basis: 60px; width: 60px; text-align: center; }
+.inventory-item input[name*="desc"] { flex-basis: 50%; }
+
+.features-traits textarea { width: 100%; }
+
+.totals { margin-top: 15px; font-weight: bold; }
+.totals label { display: inline-block; font-weight: bold; margin-right: 5px;}
+.totals input { width: 80px; margin: 0 5px; display: inline-block;}
+
+/* 7: Estilos para nova seção Habilidades / Magias */
+.abilities-spells h2 { margin-top: 20px; font-size: 1.5em; }
+.ability-block {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+.ability-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Espaço entre campos */
+    margin-bottom: 10px;
+}
+.ability-stats .field-group input {
+     width: 100%; /* Ocupa todo o espaço do field-group */
+}
+.ability-stats .field-group { flex: 1 1 100px; } /* Tenta distribuir espaço */
+
+.ability-block .field-group label { display: block; font-size: 0.8em; }
+.ability-block input[type="text"],
+.ability-block textarea {
+    margin-bottom: 0; /* Remove margin interna do bloco */
+}
+.ability-block textarea { width: 100%; } /* Garante largura total */
+.abilities .edit {display: none;}
+.abilities:hover .edit{display: inherit;}
+
+/* Let's see */
+
+.ability-card {
+    /* font-family: 'Roboto', sans-serif; /* Example font */
+    font-family: Arial, sans-serif; /* Fallback/Alternative */
+    max-width: 350px; /* Adjust width as needed */
+    border: 1px solid #4a2a4a; /* Dark purple border */
+    margin: 20px auto; /* Center the card for demo */
+    background-color: #f0e8f0; /* Light lavender background for the body */
+    color: #333; /* Default text color */
+    line-height: 1.4;
+    font-size: 14px; /* Base font size */
+    overflow: hidden; /* Keeps contained elements within borders */
+    border-radius: 3px; /* Slightly rounded corners */
+}
+
+.ability-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #6a3a6b; /* Dark purple */
+    color: white;
+    padding: 8px 12px;
+}
+
+.ability-header .icon {
+    font-size: 1.2em;
+    margin-right: 8px;
+}
+.ability-header .edit{
+    display: none;
+}
+.ability-header:hover .edit{
+    display: inherit;
+}
+
+.ability-name {
+    font-weight: bold;
+    font-size: 1.1em;
+    flex-grow: 1; /* Takes available space */
+    text-align: center;
+}
+
+.ability-cost {
+    font-weight: bold;
+    background-color: #4a2a4a; /* Slightly darker purple */
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 8px;
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.ability-tags {
+    display: flex;
+    background-color: #8e6995; /* Medium purple */
+    color: white;
+    border-top: 1px solid #4a2a4a;
+    border-bottom: 1px solid #4a2a4a;
+}
+
+.ability-tags .tag {
+    flex: 1; /* Equal width */
+    text-align: center;
+    padding: 5px 8px;
+    font-weight: bold;
+    font-size: 0.9em;
+    border-right: 1px solid #6a3a6b; /* Separator line */
+    text-transform: uppercase;
+}
+
+.ability-tags .tag:last-child {
+    border-right: none; /* Remove border from last tag */
+}
+
+.ability-tags .tag.tag-igneo {
+     background-color: #d10018; /* Darker red/purple for ÍGNEO tag background */
+     border-right: none; /* Ensure no border if it's last */
+     border-left: 1px solid #6a3a6b; /* Add left border if needed */
+}
+
+
+.ability-body {
+    padding: 12px;
+    background-color: #e8e0e9; /* Light grayish-purple background */
+}
+
+.ability-body p {
+    margin: 0 0 8px 0; /* Spacing between paragraphs */
+}
+
+.ability-body p:last-child {
+    margin-bottom: 0;
+}
+
+.ability-body strong {
+    font-weight: bold;
+    color: #4a2a4a; /* Darker purple for keywords */
+}
+
+.ability-body .inline-tag {
+    display: inline-block; /* Allows padding and border */
+    border: 1px solid #7b3f41; /* Dark red/brown border */
+    background-color: #e6c3c5; /* Pale reddish background */
+    color: #58181F; /* Dark red text */
+    font-weight: bold;
+    font-size: 0.85em;
+    padding: 1px 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    margin-left: 4px;
+    vertical-align: baseline; /* Align with text */
+}
+
+.ability-body .emphasis {
+    font-weight: bold;
+    font-style: italic; /* If needed */
+    color: #58181F; /* Dark red/purple */
+}
+
+.ability-upgrade {
+    background-color: #d1c4d2; /* Slightly darker lavender */
+    color: #3b1f3c; /* Darker text color */
+    padding: 10px 12px;
+    border-top: 1px solid #a898aa; /* Separator line */
+}
+
+.ability-upgrade .icon {
+    font-size: 1.1em;
+    margin-right: 6px;
+    color: #6a3a6b; /* Darker purple */
+}
+
+.ability-upgrade .upgrade-cost {
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+.ability-upgrade .upgrade-type {
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #4a2a4a;
+}
+
+.ability-upgrade p.upgrade-desc {
+    margin: 8px 0 0 18px; /* Indent the description */
+    font-size: 0.95em;
+}
+
+.ability-upgrade p.upgrade-desc strong {
+     font-weight: bold;
+     color: #4a2a4a; /* Darker purple for keywords */
+}
