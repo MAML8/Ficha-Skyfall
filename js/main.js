@@ -1,44 +1,3 @@
-
-const clearButton = document.querySelector('.clear-button');
-const form = document.getElementById('character-sheet');
-
-clearButton.addEventListener('click', function(event) {
-    event.preventDefault(); // Previne o reset imediato
-    if (confirm('Tem certeza que deseja limpar todos os campos da ficha?')) {
-        form.reset(); // Efetua o reset do formulário
-    }
-});
-
-// Exemplo MUITO BÁSICO de como adicionar save/load com Local Storage (Não incluído por padrão)
-/*
-function saveData() {
-    const formData = new FormData(form);
-    for (let [key, value] of formData.entries()) {
-        localStorage.setItem(key, value);
-    }
-    console.log("Data saved to Local Storage");
-}
-
-function loadData() {
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        const element = form.elements[key];
-        if (element) {
-            if (element.type === 'checkbox') {
-                element.checked = localStorage.getItem(key) === 'on'; // FormData retorna 'on' para checkboxes
-            } else {
-                element.value = localStorage.getItem(key);
-            }
-        }
-    }
-    console.log("Data loaded from Local Storage");
-}
-
-// Adicionar botões ou eventos para chamar saveData() e loadData()
-// Exemplo: window.addEventListener('load', loadData); // Carrega ao abrir
-// Exemplo: form.addEventListener('change', saveData); // Salva a cada mudança (pode ser pesado)
-*/
-
 $('#mais-aptidao').on("click", function(e){
     let quant_aptidao = Math.round($('#quant-aptidao').val());
     $(this).before('<div class="skill-entry">'+
@@ -121,60 +80,60 @@ function descritores(tags){
 }
 
 function nova_habilidade(onde, content, elimina=false){
-    if(content.find("#nome").val() == ""){
+    if(!content || content['nome'] == ""){
         if(elimina) onde.remove();
         return;
     }
 
     let quant_habilidade = Math.round($('#quant-habilidade').val());
     if(!elimina) quant_habilidade++;
+    else {
+         let a = onde.find(".edit button").attr("id");
+         quant_habilidade = Math.round(a[a.length-1]);
+    }
     let card = '<div class="ability-card"> <div class="ability-header">'+
-                    '<span class="icon">'+ação_img(content.find("#action").val())+'</span>'+
-                    '<span class="ability-name">'+content.find("#nome").val()+'</span>'+
-                    ((content.find("#pe").val()>0) ? ('<span class="ability-cost">'+content.find("#pe").val()+' PE</span>') : '')+
+                    '<span class="icon">'+ação_img(content['action'])+'</span>'+
+                    '<span class="ability-name">'+content['nome']+'</span>'+
+                    ((content['pe']>0) ? ('<span class="ability-cost">'+content['pe']+' PE</span>') : '')+
                     '<span class="edit"><button type="button" id="edit-ability'+quant_habilidade+'">edit</button></span>'+
                 '</div>'+
                 '<div class="ability-tags">'+
-                    descritores(content.find('#tags').val())+
+                    descritores(content['tags'])+
                 '</div>'+
                 '<div class="ability-body">'+
-                    ((content.find('#alcance').val() != "") ? ('<p><strong>Alcance: </strong>'+ content.find('#alcance').val()+'</p>') : '')+
-                    ((content.find('#alvo').val() != "") ? ('<p><strong>Alvo: </strong>'+ content.find('#alvo').val()+'</p>') : '')+
-                    ((content.find('#duracao').val() != "") ? ('<p><strong>Duração: </strong>'+ content.find('#duracao').val()+'</p>') : '')+
-                    ((content.find('#ataque').val() != "") ? ('<p><strong>Ataque: </strong>'+ content.find('#ataque').val()+'</p>') : '')+
-                    ((content.find('#gatilho').val() != "") ? ('<p><strong>Gatilho: </strong>'+ content.find('#gatilho').val()+'</p>') : '')+
+                    ((content['alcance'] != "") ? ('<p><strong>Alcance: </strong>'+ content['alcance']+'</p>') : '')+
+                    ((content['alvo'] != "") ? ('<p><strong>Alvo: </strong>'+ content['alvo']+'</p>') : '')+
+                    ((content['duracao'] != "") ? ('<p><strong>Duração: </strong>'+ content['duracao']+'</p>') : '')+
+                    ((content['ataque'] != "") ? ('<p><strong>Ataque: </strong>'+ content['ataque']+'</p>') : '')+
+                    ((content['gatilho'] != "") ? ('<p><strong>Gatilho: </strong>'+ content['gatilho']+'</p>') : '')+
                     '<h3> </h3>'+
-                    ((content.find('#acerto').val() != "") ? ('<p><strong>Acerto: </strong>'+ content.find('#acerto').val()+'</p>') : '')+
-                    ((content.find('#erro').val() != "") ? ('<p><strong>Erro: </strong>'+ content.find('#erro').val()+'</p>') : '')+
-                    ((content.find('#efeito').val() != "") ? ('<p><strong>Efeito: </strong>'+ content.find('#efeito').val()+'</p>') : '')+
-                    ((content.find('#especial').val() != "") ? ('<p><strong>Especial: </strong>'+ content.find('#especial').val()+'</p>') : '')+
+                    ((content['acerto'] != "") ? ('<p><strong>Acerto: </strong>'+ content['acerto']+'</p>') : '')+
+                    ((content['erro'] != "") ? ('<p><strong>Erro: </strong>'+ content['erro']+'</p>') : '')+
+                    ((content['efeito'] != "") ? ('<p><strong>Efeito: </strong>'+ content['efeito']+'</p>') : '')+
+                    ((content['especial'] != "") ? ('<p><strong>Especial: </strong>'+ content['especial']+'</p>') : '')+
                 '</div>';
-    let save = content.find("#action").val() + '||' + content.find("#nome").val() + '||' + content.find("#pe").val() + '||' + content.find('#tags').val() + '||'+
-        content.find('#alcance').val() + '||' + content.find('#alvo').val() + '||' + content.find('#duracao').val() + '||' + content.find('#ataque').val() + '||'+
-        content.find('#gatilho').val() + '||' + content.find('#acerto').val() + '||' + content.find('#erro').val() + '||' + content.find('#efeito').val() + '||' +
-        content.find('#especial').val() + '||';
-    for(i = 1; i<=Math.round(content.find('#quant-modificacao').val()); i++){
+    for(i = 1; i<=Math.round(content['quant-modificacao']); i++){
         card += '<div class="ability-upgrade">'+
             '<span class="icon">▷</span>'+
-            '<span class="upgrade-cost">+'+content.find('#mod'+i+'-custo').val()+' '+content.find('#mod'+i+'-p').val().toUpperCase()+'</span>'+
-            '<span class="upgrade-type">['+content.find('#mod'+i+'ifica').val().toUpperCase()+']</span>';
-        save += '-M' + '||' + content.find('#mod'+i+'-custo').val() + '||' + content.find('#mod'+i+'-p').val() + '||' + content.find('#mod'+i+'ifica').val() + '||';
-        for(j = 1; j<=Math.round(content.find('#quant-mod'+i).val()); j++){
-            card += '<p class="upgrade-desc"><strong>'+content.find('#mod'+i+'-prop'+j).val()+'</strong> '+content.find('#mod'+i+'-desc'+j).val()+'</p>';
-            save += '-m' + '||' + content.find('#mod'+i+'-prop'+j).val() + '||' + content.find('#mod'+i+'-desc'+j).val() + '||';
+            '<span class="upgrade-cost">+'+content['mod'+i+'-custo']+' '+content['mod'+i+'-p'].toUpperCase()+'</span>'+
+            '<span class="upgrade-type">['+content['mod'+i+'ifica'].toUpperCase()+']</span>';
+        for(j = 1; j<=Math.round(content['quant-mod'+i]); j++){
+            card += '<p class="upgrade-desc"><strong>'+content['mod'+i+'-prop'+j]+'</strong> '+content['mod'+i+'-desc'+j]+'</p>';
         }
         card+='</div>';
     }
+    save = JSON.stringify(content);
 
-    card += '<input type="hidden" value="'+save+'" name="saved-ability'+quant_habilidade+'" id="saved-ability'+quant_habilidade+'"> </div>';
+    card += '<input type="hidden" value="'+save.replaceAll("\"", "\'")+'" name="saved-ability'+quant_habilidade+'" id="saved-ability'+quant_habilidade+'"> </div>';
     onde.before(card);
     if(elimina){
         onde.remove();
+    } else {
+        $('#quant-habilidade').val(quant_habilidade);
     }
     $('#edit-ability'+quant_habilidade).on("click", function () {
         edit_habilidade($(this).parent().parent().parent(), save);
     });
-    $('#quant-habilidade').val(quant_habilidade);
 }
 
 function edit_habilidade(onde, save=null){
@@ -221,7 +180,15 @@ function edit_habilidade(onde, save=null){
                 text: "Salvar",
                 btnClass: "btn-green",
                 action: function(){
-                    nova_habilidade(onde, this.$content, save!=null);
+                    let arr = this.$content.find('form').serializeArray();
+                    let obje = {};
+                    $.each(arr, function(index, field) {
+                        if(field.name=="tags"){
+                            obje[field.name] = field.value.toUpperCase();
+                        }
+                        obje[field.name] = field.value;
+                    });
+                    nova_habilidade(onde, obje, save!=null);
                 }
             },
             cancel: function(){
@@ -258,36 +225,34 @@ function edit_habilidade(onde, save=null){
                 cont.find('#quant-modificacao').val(quant_mod);
             });
 
-            if(save!=null){
-                let array = save.split("||");
-                cont.find('#action').val(array[0]);
-                cont.find('#nome').val(array[1]);
-                cont.find('#pe').val(array[2]);
-                cont.find('#tags').val(array[3]);
-                cont.find('#alcance').val(array[4]);
-                cont.find('#alvo').val(array[5]);
-                cont.find('#duracao').val(array[6]);
-                cont.find('#ataque').val(array[7]);
-                cont.find('#gatilho').val(array[8]);
-                cont.find('#acerto').val(array[9]);
-                cont.find('#erro').val(array[10]);
-                cont.find('#efeito').val(array[11]);
-                cont.find('#especial').val(array[12]);
-                i = 13, modi = 0; console.log(array[i]=="-M"); console.log(array[i]);
-                while(array[i]=="-M"){
-                    i++;
-                    cont.find('#mais-modificacao').trigger("click"); console.log(array[i]);
+            if(!save){
+                let obje = JSON.parse(save);
+                cont.find('#action').val(obje['action']);
+                cont.find('#nome').val(obje['nome']);
+                cont.find('#pe').val(obje['pe']);
+                cont.find('#tags').val(obje['tags']);
+                cont.find('#alcance').val(obje['alcance']);
+                cont.find('#alvo').val(obje['alvo']);
+                cont.find('#duracao').val(obje['duracao']);
+                cont.find('#ataque').val(obje['ataque']);
+                cont.find('#gatilho').val(obje['gatilho'])
+                cont.find('#acerto').val(obje['acerto']);
+                cont.find('#erro').val(obje['erro']);
+                cont.find('#efeito').val(obje['efeito']);
+                cont.find('#especial').val(obje['especial']);
+                modi = 0;
+                while(modi<obje['quant-modificacao']){
+                    cont.find('#mais-modificacao').trigger("click");
                     modi++;
-                    cont.find('#mod'+modi+'-custo').val(array[i++]); console.log(array[i]);
-                    cont.find('#mod'+modi+'-p').val(array[i++]); console.log(array[i]);
-                    cont.find('#mod'+modi+'ifica').val(array[i++]); console.log(array[i]);
+                    cont.find('#mod'+modi+'-custo').val(obje['mod'+modi+'-custo']);
+                    cont.find('#mod'+modi+'-p').val(obje['mod'+modi+'-p']);
+                    cont.find('#mod'+modi+'ifica').val(obje['mod'+modi+'ifica']);
                     modj = 0
-                    while(array[i]=="-m"){
-                        i++;
+                    while(modj<obje['quant-mod'+modi]){
                         if(modj > 0) cont.find('#mais-mod'+modi).trigger("click");
                         modj++;
-                        cont.find('#mod'+modi+'-prop'+modj).val(array[i++]);
-                        cont.find('#mod'+modi+'-desc'+modj).val(array[i++]);
+                        cont.find('#mod'+modi+'-prop'+modj).val(obje['mod'+modi+'-prop'+modj]);
+                        cont.find('#mod'+modi+'-desc'+modj).val(obje['mod'+modi+'-desc'+modj]);
                     }
                 }
             }

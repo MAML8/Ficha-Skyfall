@@ -29,9 +29,24 @@ body {
     margin-bottom: 20px;
     padding-bottom: 10px;
 }
+.button-group {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+}
 .sheet-header h1 { margin: 0; font-size: 2em; }
 .clear-button { padding: 8px 15px; background-color: #e74c3c; color: white; border: none; cursor: pointer; border-radius: 4px; }
 .clear-button:hover { background-color: #c0392b; }
+.save-button {
+    padding: 8px 15px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #3498db;
+}
+.save-button:hover{
+     background-color: #2980b9;
+}
 
 /* Seções */
 section { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px dashed #eee; }

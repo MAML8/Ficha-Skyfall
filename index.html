@@ -11,7 +11,15 @@
     <form id="character-sheet">
         <header class="sheet-header">
             <h1>SKYFALL RPG</h1>
-            <button type="reset" class="clear-button">LIMPAR FICHA</button>
+            <div class="button-group">
+                <button type="button" id="info-button" class="save-button">Info</button>
+                -
+                <button type="reset" id="clear-button" class="clear-button">Limpar</button>
+                <button type="button" id="save-button" class="save-button">Salvar</button>
+                /
+                <button type="button" id="load-button" class="clear-button">Carregar</button>
+                <button type="button" id="export-button" class="save-button">Exportar</button>
+            </div>
         </header>
 
         <section class="main-info">
@@ -151,13 +159,13 @@
                         <label for="val-apresentacao">Apresentação:</label>
                         <input type="number" name="val-apresentacao" id="val-apresentacao">
                     </div>
+                    <input type="hidden" name="quant-aptidao" id="quant-aptidao" value=1>
                     <div class="skill-entry">
                         <input type="checkbox" name="prof-aptidao" id="prof-aptidao">
                         <label for="val-aptidao">Aptidão (<input type="text" size=10>):</label>
                         <input type="number" name="val-aptidao" id="val-aptidao">
                     </div>
                     <button type="button" id="mais-aptidao" name="mais-aptidao">+</button>
-                    <input type="hidden" name="quant-aptidao" id="quant-aptidao" value=1>
                     <div class="skill-entry">
                         <input type="checkbox" name="prof-arcanismo" id="prof-arcanismo">
                         <label for="val-arcanismo">Arcanismo:</label>
@@ -248,6 +256,7 @@
                     <div class="attack-header">
                         <span>Nome</span><span>Bônus</span><span>Dano</span>
                     </div>
+                    <input type="hidden" name="quant-ataque" id="quant-ataque" value="2">
                     <div class="attack-entry">
                         <input type="text" name="atk1-nome">
                         <input type="text" name="atk1-bonus" size="5">
@@ -263,7 +272,6 @@
                     <div class="edit">
                         <button type="button" name="mais-ataque" id="mais-ataque">+</button>
                     </div>
-                    <input type="hidden" name="quant-ataque" id="quant-ataque" value="2">
                 </div>
                 <div class="equipment">
                     <h3>Equipamentos Diversos</h3>
@@ -292,6 +300,7 @@
                 <span>Vol</span> <span>Frag</span> <span>Descritores / Notas</span>
             </div>
 
+            <input type="hidden" name="quant-item" id="quant-item" value=2>
             <div class="inventory-item">
                 <input type="text" name="item1-nome" placeholder="Nome do item">
                 <input type="number" name="item1-vol" class="small-input">
@@ -307,7 +316,6 @@
             <div class="edit">
                 <button type="button" id="mais-item">+</button>
             </div>
-            <input type="hidden" name="quant-item" id="quant-item" value=2>
         </section>
 
         <section class="abilities-spells">
@@ -399,7 +407,9 @@
 
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-confirm.min.js"></script>
+    <script src="js/lz-string.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/saving.js"></script>
 
 </body>
 </html>
