@@ -137,14 +137,14 @@ input[type="checkbox"] {
 .skills:hover { #mais-aptidao{ display: block;}}
 .other-proficiencies { flex-basis: 45%; min-width: 250px; }
 .skills .skill-entry { display: flex; align-items: center; margin-bottom: 5px; }
-.skills .skill-entry input[type="checkbox"] { order: 1; margin-right: 8px; flex-shrink: 0;}
-.skills .skill-entry label { order: 2; flex-grow: 1; margin-bottom: 0; font-weight: normal; }
-.skills .skill-entry input[type="number"] { order: 3; width: 50px; margin-left: 10px; margin-bottom: 0; flex-shrink: 0; }
+.skills .skill-entry input[type="checkbox"] { margin-right: 8px; flex-shrink: 0;}
+.skills .skill-entry label { flex-grow: 1; margin-bottom: 0; font-weight: normal; }
+.skills .skill-entry input[type="number"] { width: 50px; margin-left: 10px; margin-bottom: 0; flex-shrink: 0; }
 
 .attacks { flex: 1; min-width: 250px; }
 .equipment { flex: 1; min-width: 250px; }
-.attacks .edit, .inventory-detailed .edit,  .attack-entry .edit, .inventory-item .edit, .skill-entry .edit{display: none;}
-.attacks:hover .edit, .inventory-detailed:hover .edit, .attack-entry:hover .edit, .inventory-item:hover .edit, .skill-entry:hover .edit{display:inherit;}
+.attacks #mais-ataque, .inventory-detailed #mais-item,  .attack-entry .edit, .inventory-item .edit, .skill-entry .edit{display: none;}
+.attacks:hover #mais-ataque, .inventory-detailed:hover #mais-item, .attack-entry:hover .edit, .inventory-item:hover .edit, .skill-entry:hover .edit{display:inherit;}
 .attacks .attack-header, .inventory-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; padding-bottom: 3px; border-bottom: 1px solid #ccc; font-size: 0.9em; }
 .attacks .attack-header span, .inventory-header span { flex: 1; padding: 0 5px; }
 .attacks .attack-header span:nth-child(1), .inventory-header span:nth-child(1) { flex-basis: 40%; } /* Nome maior */

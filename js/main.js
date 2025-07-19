@@ -2,7 +2,7 @@ $('#mais-aptidao').on("click", function(e){
     let quant_aptidao = Math.round($('#quant-aptidao').val());
     $(this).before('<div class="skill-entry">'+
         '<input type="checkbox" name="prof-aptidao'+quant_aptidao+'" id="prof-aptidao'+quant_aptidao+'">'+
-        '<label for="val-aptidao'+quant_aptidao+'">Aptidão (<input type="text" size=10>):</label>'+
+        '<label for="val-aptidao'+quant_aptidao+'">Aptidão (<input type="text" size=10 name="nome-aptidao'+quant_aptidao+'">):</label>'+
         '<button type="button" class="edit" name="menos-aptidao'+quant_aptidao+'" id="menos-aptidao'+quant_aptidao+'">-</button>'+
         '<input type="number" name="val-aptidao'+quant_aptidao+'" id="val-aptidao'+quant_aptidao+'">'+
         '</div>');
@@ -124,7 +124,7 @@ function nova_habilidade(onde, content, elimina=false){
     }
     save = JSON.stringify(content);
 
-    card += '<input type="hidden" value="'+save.replaceAll("\"", "\'")+'" name="saved-ability'+quant_habilidade+'" id="saved-ability'+quant_habilidade+'"> </div>';
+    card += '<input type="hidden" value="'+save.replaceAll("\"", "||")+'" name="saved-ability'+quant_habilidade+'" id="saved-ability'+quant_habilidade+'"> </div>';
     onde.before(card);
     if(elimina){
         onde.remove();
@@ -225,7 +225,7 @@ function edit_habilidade(onde, save=null){
                 cont.find('#quant-modificacao').val(quant_mod);
             });
 
-            if(!save){
+            if(save){
                 let obje = JSON.parse(save);
                 cont.find('#action').val(obje['action']);
                 cont.find('#nome').val(obje['nome']);

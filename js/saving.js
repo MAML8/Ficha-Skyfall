@@ -9,6 +9,27 @@ $(function(){
             nova_habilidade($("#saved-ability"+i).parent(), null, true);
         }
         $("#quant-habilidade").val(0);
+        let i = 1;
+        let $testesito = $("#menos-aptidao1");
+        while($testesito.length){
+            $testesito.trigger("click");
+            i++;
+            $testesito = $("#menos-aptidao"+i);
+        }
+        i = 3;
+        $testesito = $("#atk3-menos");
+        while($testesito.length){
+            $testesito.trigger("click");
+            i++;
+            $testesito = $("#atk"+i+"-menos");
+        }
+        i = 3;
+        $testesito = $("#menos-item3");
+        while($testesito.length){
+            $testesito.trigger("click");
+            i++;
+            $testesito = $("#menos-item"+i);
+        }
         $("#character-sheet")[0].reset();
     }
 
@@ -28,13 +49,23 @@ $(function(){
         })
     }
 
-    function saveData() {
+    function getFormData() {
         const formDataArray = $form.serializeArray();
 
         let dataObject = {};
         $.each(formDataArray, function(index, field) {
+            if(field.name.startsWith("saved-ability")){
+                dataObject[field.name] = JSON.parse(field.value.replaceAll("||", "\""));
+                return;
+            }
             dataObject[field.name] = field.value;
         });
+
+        return dataObject;
+    }
+
+    function saveData() {
+        let dataObject = getFormData();
 
         localStorage.setItem(localStorageKeyPrefix+dataObject['char-name'], LZString.compressToUTF16(JSON.stringify(dataObject)));
     }
@@ -80,7 +111,7 @@ $(function(){
                             return;
                         case "quant-item":
                             for(let i = value; i>2; i--){
-                                $("#mais-item").triguer("click");
+                                $("#mais-item").trigger("click");
                             }
                             return;
                         case "quant-habilidade":
@@ -94,15 +125,16 @@ $(function(){
                     $element.val(value);
                 }
             } else if(key.startsWith("saved-ability")){
-                let obje = JSON.parse(value);
+                let obje = value;
                 let $onde = $("#mais-habilidade").parent();
-                if(obje['tags'].includes("TRUQUE")){
+                console.log(obje['tags']);
+                if(obje['tags'].includes("truque")){
                     $onde = $("#mais-truque").parent();
-                } else if(obje['tags'].includes("SUPERFICIAL")){
+                } else if(obje['tags'].includes("superficial")){
                     $onde = $("#mais-superficial").parent();
-                } else if(obje['tags'].includes("RASA")){
+                } else if(obje['tags'].includes("rasa")){
                     $onde = $("#mais-rasa").parent();
-                } else if(obje['tags'].includes("PROFUNDA")){
+                } else if(obje['tags'].includes("profunda")){
                     $onde = $("#mais-profunda").parent();
                 }
                 nova_habilidade($onde, obje);
@@ -112,7 +144,7 @@ $(function(){
         $.alert("Ficha carregada com sucesso!");
     }
 
-    $("#clear-button").on("click", clearForm);
+    $("#clear-button").on("click", clearData);
     $("#save-button").on("click", saveData);
     $("#load-button").on("click", function(e) {
         $.confirm({
@@ -120,7 +152,7 @@ $(function(){
             content: ''+
             '<form action="">'+
                 '<input type="text" name="nomeSearch" id="nomeSearch">'+
-            +'</form>',
+            '</form>',
             buttons:{
                 formSubmit: {
                     text: "Carregar",
