@@ -33,15 +33,17 @@ $('#mais-item').on('click', function(e) {
     let quant_itens = Math.round($('#quant-item').val())+1;
     $(this).parent().before('<div class="inventory-item">'+
                 '<input type="text" name="item'+quant_itens+'-nome" placeholder="Nome do item">'+
-                '<input type="number" name="item'+quant_itens+'-vol" class="small-input">'+
-                '<input type="number" name="item'+quant_itens+'-frag" class="small-input">'+
+                '<input type="number" name="item'+quant_itens+'-vol" class="vol-entries">'+
+                '<input type="number" name="item'+quant_itens+'-frag" class="frag-entries">'+
                 '<input type="text" name="item'+quant_itens+'-desc" placeholder="Descrição...">'+
                 '<button class="edit" type="button" name="menos-item'+quant_itens+'" id="menos-item'+quant_itens+'">-</button>'+
             '</div>');
     $('#menos-item'+quant_itens).on('click', function(e){
         $(this).parent().remove();
         $('#quant-item').val(Math.round($('#quant-item').val())-1);
-    })
+    });
+    $('[name="item'+quant_itens+'-vol"]').on("change", on_change_vol);
+    $('[name="item'+quant_itens+'-frag"]').on("change", on_change_frag);
     $('#quant-item').val(quant_itens);
 });
 function ação_img(nome) {

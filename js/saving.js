@@ -2,6 +2,7 @@ $(function(){
 
     const localStorageKeyPrefix = "skyfallCharacterSheetData-";
     const $form = $("#character-sheet");
+    const exclusions = ["quant-habilidade", "bonus-prof"]
 
     function clearForm(){
         let aux = Math.round($("#quant-habilidade").val());
@@ -58,6 +59,9 @@ $(function(){
                 dataObject[field.name] = JSON.parse(field.value.replaceAll("||", "\""));
                 return;
             }
+            if(exclusions.includes(field.name)){
+                return;
+            }
             dataObject[field.name] = field.value;
         });
 
@@ -65,9 +69,36 @@ $(function(){
     }
 
     function saveData() {
-        let dataObject = getFormData();
+        const dataObject = getFormData();
 
         localStorage.setItem(localStorageKeyPrefix+dataObject['char-name'], LZString.compressToUTF16(JSON.stringify(dataObject)));
+
+        $.alert("Ficha salva com sucesso")
+    }
+
+    function exportData(){
+        let dataObject = getFormData();
+
+        const dataString = JSON.stringify(dataObject, null, 4);
+            
+        // Create a "Blob" which is like a file in memory.
+        const blob = new Blob([dataString], { type: 'application/json' });
+        
+        // Create a temporary URL for the Blob.
+        const url = URL.createObjectURL(blob);
+        
+        // Create a temporary link element to trigger the download.
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'skyfall_ficha.json'; // The default filename for the download.
+        
+        // Programmatically click the link to start the download.
+        document.body.appendChild(a);
+        a.click();
+        
+        // Clean up by removing the temporary link and URL.
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
 
     function loadData(source){
@@ -79,7 +110,7 @@ $(function(){
             }
             source = JSON.parse(savedDataString);
         } else if(!source){
-            $.alert("arquivo recebido vazio.");
+            $.alert("arquivo recebido mal formado");
                 return;
         }
 
@@ -114,20 +145,15 @@ $(function(){
                                 $("#mais-item").trigger("click");
                             }
                             return;
-                        case "quant-habilidade":
-                            return;
                         default:
                             break;
                     }
                 } else {
-                    // .val() is jQuery's powerful method for setting the value
-                    // of inputs, textareas, and selects.
                     $element.val(value);
                 }
             } else if(key.startsWith("saved-ability")){
                 let obje = value;
                 let $onde = $("#mais-habilidade").parent();
-                console.log(obje['tags']);
                 if(obje['tags'].includes("truque")){
                     $onde = $("#mais-truque").parent();
                 } else if(obje['tags'].includes("superficial")){
@@ -146,12 +172,14 @@ $(function(){
 
     $("#clear-button").on("click", clearData);
     $("#save-button").on("click", saveData);
+    $("#export-button").on("click", exportData);
     $("#load-button").on("click", function(e) {
         $.confirm({
             title: "Carregar Personagem",
             content: ''+
             '<form action="">'+
                 '<input type="text" name="nomeSearch" id="nomeSearch">'+
+                '<input type="file" name="jsonLoad" id="jsonLoad" accept=".json">'+
             '</form>',
             buttons:{
                 formSubmit: {
@@ -159,6 +187,29 @@ $(function(){
                     btnClass: "btn-blue",
                     action: function(){
                         let source = this.$content.find("#nomeSearch").val();
+                        const file = this.$content.find("#jsonLoad")[0].files[0];
+                        if (file){
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                try {
+                                    const jsonString = e.target.result;
+                                    const jsonObject = JSON.parse(jsonString); // Parse JSON string to object
+
+                                    loadData(jsonObject);
+                                } catch (error) {
+                                    console.error("Error parsing JSON:", error);
+                                    $.alert("Arquivo recebido invalido");
+                                }
+                            };
+
+                            reader.onerror = function(e) {
+                                console.error("Error reading file:", e.target.error);
+                                $.alert("Error reading the file.");
+                            };
+                            reader.readAsText(file); // Read the file content as text
+                            return;
+                        }
+
                         loadData(source);
                     }
                 },

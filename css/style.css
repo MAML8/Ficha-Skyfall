@@ -20,6 +20,11 @@ body {
     margin: auto;
 }
 
+.jconfirm .jconfirm-box {
+    margin-left: 20% !important;
+    margin-right: 20% !important;
+}
+
 /* Cabeçalho */
 .sheet-header {
     display: flex;
@@ -88,6 +93,9 @@ label.sub-label { font-size: 0.75em; font-weight: normal; margin-top: 2px; displ
 .attr-prot-box {
     border: 1px solid #ddd; padding: 10px; text-align: center;
     min-width: 70px; flex-grow: 1;
+    div {
+        display: flex;
+    }
 }
 .attr-prot-box label { /* Label principal (FOR, DES...) */
     font-size: 0.9em; display: block; margin-bottom: 5px; font-weight: bold;
@@ -95,8 +103,8 @@ label.sub-label { font-size: 0.75em; font-weight: normal; margin-top: 2px; displ
 .attr-prot-box input {
     width: 50px; text-align: center; font-size: 1.1em; margin: 0 auto 5px auto; display: block;
 }
-.attr-prot-box input[type="number"] { /* Garante tamanho */
-     width: 50px;
+.attr-prot-box input[type="checkbox"] {
+    margin: auto auto auto 0;
 }
 .attr-prot-box label.sub-label { /* Label 'Proteção' */
      margin-bottom: 3px;
@@ -143,11 +151,46 @@ input[type="checkbox"] {
 
 .attacks { flex: 1; min-width: 250px; }
 .equipment { flex: 1; min-width: 250px; }
-.attacks #mais-ataque, .inventory-detailed #mais-item,  .attack-entry .edit, .inventory-item .edit, .skill-entry .edit{display: none;}
-.attacks:hover #mais-ataque, .inventory-detailed:hover #mais-item, .attack-entry:hover .edit, .inventory-item:hover .edit, .skill-entry:hover .edit{display:inherit;}
+.attacks #mais-ataque, .inventory-detailed #mais-item,  .attack-entry .edit, .inventory-item .edit, .skill-entry .edit{
+    /* Hide by default using opacity for a smooth transition */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+.attacks:hover #mais-ataque, .inventory-detailed:hover #mais-item, .attack-entry:hover .edit, .inventory-item:hover .edit, .skill-entry:hover .edit{
+    opacity: 1;
+    visibility: visible;
+}
 .attacks .attack-header, .inventory-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; padding-bottom: 3px; border-bottom: 1px solid #ccc; font-size: 0.9em; }
-.attacks .attack-header span, .inventory-header span { flex: 1; padding: 0 5px; }
-.attacks .attack-header span:nth-child(1), .inventory-header span:nth-child(1) { flex-basis: 40%; } /* Nome maior */
+
+.attacks .attack-header span {
+    flex: 1;
+    padding: 0 5px;
+}
+.attacks .attack-header span:nth-child(1){
+    flex-basis: 10%;
+}
+.inventory-header{
+    span{
+        flex: 1;
+        padding: 0 5px;
+    }
+    span:nth-child(1){
+        flex-basis: 10%;
+    }
+    span:nth-child(2){
+        flex-basis: 0%;
+    }
+    span:nth-child(3){
+        flex-basis: 0%;
+    }
+    span:nth-child(4){
+        flex-basis: 55%;
+    }
+}
+/*.attacks .attack-header span:nth-child(1), .inventory-header span:nth-child(1) { flex-basis: 40%; } /* Nome maior */
+
+
 .attacks .attack-entry, .inventory-item { display: flex; gap: 10px; margin-bottom: 5px; align-items: center; }
 .attacks .attack-entry input, .inventory-item input { margin-bottom: 0; flex: 1; }
 .attacks .attack-entry input[name*="bonus"], .attacks .attack-entry input[name*="dano"] { flex-grow: 0; flex-basis: 70px;}

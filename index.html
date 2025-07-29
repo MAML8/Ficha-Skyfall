@@ -34,7 +34,7 @@
                 </div>
                  <div class="field-group inline">
                     <label for="char-pronouns">Pronomes:</label>
-                    <input type="text" id="char-pronouns" name="char-pronouns" size="1">
+                    <input type="text" id="char-pronouns" name="char-pronouns" size="3">
                 </div>
                  <div class="field-group inline">
                     <label for="char-level">Nível/</label><label for="char-class">Classe:</label>
@@ -70,37 +70,55 @@
                         <label for="attr-for">FOR</label>
                         <input type="number" id="attr-for" name="attr-for">
                         <label for="prot-for" class="sub-label">Proteção</label>
-                        <input type="number" id="prot-for" name="prot-for">
+                        <div>
+                            <input type="number" id="prot-for" name="prot-for">
+                            <input type="checkbox" id="prof-prot-for" name="prof-prot-for">
+                        </div>
                     </div>
                     <div class="attr-prot-box">
                         <label for="attr-des">DES</label>
                         <input type="number" id="attr-des" name="attr-des">
                         <label for="prot-des" class="sub-label">Proteção</label>
-                        <input type="number" id="prot-des" name="prot-des">
+                        <div>
+                            <input type="number" id="prot-des" name="prot-des">
+                            <input type="checkbox" id="prof-prot-des" name="prof-prot-des">
+                        </div>
                     </div>
                     <div class="attr-prot-box">
                         <label for="attr-con">CON</label>
                         <input type="number" id="attr-con" name="attr-con">
                         <label for="prot-con" class="sub-label">Proteção</label>
-                        <input type="number" id="prot-con" name="prot-con">
+                        <div>
+                            <input type="number" id="prot-con" name="prot-con">
+                            <input type="checkbox" id="prof-prot-con" name="prof-prot-con">
+                        </div>
                     </div>
                     <div class="attr-prot-box">
                         <label for="attr-int">INT</label>
                         <input type="number" id="attr-int" name="attr-int">
                         <label for="prot-int" class="sub-label">Proteção</label>
-                        <input type="number" id="prot-int" name="prot-int">
+                        <div>
+                            <input type="number" id="prot-int" name="prot-int">
+                            <input type="checkbox" id="prof-prot-int" name="prof-prot-int">
+                        </div>
                     </div>
                     <div class="attr-prot-box">
                         <label for="attr-sab">SAB</label>
                         <input type="number" id="attr-sab" name="attr-sab">
                         <label for="prot-sab" class="sub-label">Proteção</label>
-                        <input type="number" id="prot-sab" name="prot-sab">
+                        <div>
+                            <input type="number" id="prot-sab" name="prot-sab">
+                            <input type="checkbox" id="prof-prot-sab" name="prof-prot-sab">
+                        </div>
                     </div>
                     <div class="attr-prot-box">
                         <label for="attr-car">CAR</label>
                         <input type="number" id="attr-car" name="attr-car">
                         <label for="prot-car" class="sub-label">Proteção</label>
-                        <input type="number" id="prot-car" name="prot-car">
+                        <div>
+                            <input type="number" id="prot-car" name="prot-car">
+                            <input type="checkbox" id="prof-prot-car" name="prof-prot-car">
+                        </div>
                     </div>
                 </div>
                 <div class="resources">
@@ -145,7 +163,7 @@
             </div>
 
             <div class="combat-stats">
-                 <div class="stat-box"> <label>Bônus de Prof.</label> <input type="number" name="bonus-prof"> </div>
+                 <div class="stat-box"> <label>Bônus de Prof.</label> <input type="number" id="bonus-prof" name="bonus-prof" readonly=true> </div>
                  <div class="stat-box"> <label>Iniciativa</label> <input type="number" name="iniciativa"> </div>
                  <div class="stat-box"> <label>Deslocamento</label> <input type="text" name="deslocamento"> </div>
                  <div class="stat-box"> <label>Redução de Dano</label> <input type="number" name="rd"> </div>
@@ -288,12 +306,12 @@
         <section class="inventory-detailed">
             <h2>Inventário Detalhado</h2>
             <div class="totals">
-                <label>Volume de Carga Atual:</label> <input type="number" name="carga-atual"> /
-                <label>Limite:</label> <input type="number" name="carga-limite">
+                <label>Volume de Carga Atual:</label> <input type="number" name="carga-atual" id="carga-atual" readonly=true> /
+                <label>Limite:</label> <input type="number" name="carga-limite" id="carga-limite">
             </div>
                 <div class="totals">
-                <label>Fragmentos Arcanos Atual:</label> <input type="number" name="frag-atual"> /
-                <label>Limite:</label> <input type="number" name="frag-limite">
+                <label>Fragmentos Arcanos Atual:</label> <input type="number" name="frag-atual" id="frag-atual" readonly=true> /
+                <label>Limite:</label> <input type="number" name="frag-limite" id="frag-limite">
             </div>
 
             <div class="inventory-header">
@@ -304,14 +322,14 @@
             <input type="hidden" name="quant-item" id="quant-item" value=2>
             <div class="inventory-item">
                 <input type="text" name="item1-nome" placeholder="Nome do item">
-                <input type="number" name="item1-vol" class="small-input">
-                <input type="number" name="item1-frag" class="small-input">
+                <input type="number" name="item1-vol" class="vol-entries">
+                <input type="number" name="item1-frag" class="frag-entries">
                 <input type="text" name="item1-desc" placeholder="Descrição...">
             </div>
             <div class="inventory-item">
                 <input type="text" name="item2-nome" placeholder="Nome do item">
-                <input type="number" name="item2-vol" class="small-input">
-                <input type="number" name="item2-frag" class="small-input">
+                <input type="number" name="item2-vol" class="vol-entries">
+                <input type="number" name="item2-frag" class="frag-entries">
                 <input type="text" name="item2-desc" placeholder="Descrição...">
             </div>
             <div class="edit">
@@ -409,6 +427,7 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-confirm.min.js"></script>
     <script src="js/lz-string.min.js"></script>
+    <script src="js/automations.js"></script>
     <script src="js/main.js"></script>
     <script src="js/saving.js"></script>
 
