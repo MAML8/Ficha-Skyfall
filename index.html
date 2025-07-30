@@ -120,6 +120,7 @@
                             <input type="checkbox" id="prof-prot-car" name="prof-prot-car">
                         </div>
                     </div>
+                    <button type="button" class="calc" id="calc-prot">calcular proteções</button>
                 </div>
                 <div class="resources">
                     <div class="point-box">
@@ -127,6 +128,7 @@
                         <input type="number" name="pv-atuais" placeholder="Atuais"> /
                         <input type="number" name="pv-maximos" placeholder="Máximos">
                         <label for="pv-temp">PV Temp:</label> <input type="number" name="pv-temp" size="5">
+                        <button type="button" class="calc" id="calc-vida">calc</button>
                     </div>
                     <div class="point-box">
                         <label>Pontos de Ênfase</label> <input type="number" name="enfase-atual" placeholder="Atuais">
@@ -135,9 +137,9 @@
                    </div>
                      <div class="point-box">
                          <label>Dados de Vida</label>
-                         <input type="number" name="dv-usados" placeholder="Usados"> /
+                         <input type="text" name="dv-usados" placeholder="Usados"> /
                          <input type="text" name="dv-totais" placeholder="Total (e.g. 5d8)">
-                         <label for="dv-temp">Dv Temp:</label> <input type="number" name="dv-temp" size="5">
+                         <label for="dv-temp">Dv Temp:</label> <input type="text" name="dv-temp" size="5">
                      </div>
                 </div>
                 <div class="resources">
@@ -303,11 +305,12 @@
 
         <section class="inventory-detailed">
             <h2>Inventário Detalhado</h2>
+            <button type="button" class="calc" id="calc-limites">calcular limites</button> 
             <div class="totals">
                 <label>Volume de Carga Atual:</label> <input type="number" name="carga-atual" id="carga-atual" readonly=true> /
                 <label>Limite:</label> <input type="number" name="carga-limite" id="carga-limite">
             </div>
-                <div class="totals">
+            <div class="totals">
                 <label>Fragmentos Arcanos Atual:</label> <input type="number" name="frag-atual" id="frag-atual" readonly=true> /
                 <label>Limite:</label> <input type="number" name="frag-limite" id="frag-limite">
             </div>
@@ -386,13 +389,13 @@
             </div>
         </section>
             
-        <!--
+    <!--
         <div class="ability-card">
             <div class="ability-header">
                 <span class="icon">▶</span>
                 <span class="ability-name">RAIO DE FOGO</span>
                 <span class="ability-cost">1 PE</span>
-                <span class="edit"><button type="button" id="edit-ability1">edit</button></span>
+                <span class="edit-ability"><button type="button">edit</button></span>
             </div>
             <div class="ability-tags">
                 <span class="tag">ATAQUE</span>

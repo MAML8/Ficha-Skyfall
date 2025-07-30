@@ -141,8 +141,15 @@ input[type="checkbox"] {
 }
 
 /* 6: Layout de Perícias (simplificado) */
-.skills { flex-basis: 45%; min-width: 250px; #mais-aptidao{ display: none; width: 100%; height: 10px;}} /* Ajuste a largura conforme necessário */
-.skills:hover { #mais-aptidao{ display: block;}}
+.skills { flex-basis: 45%; min-width: 250px; #mais-aptidao{
+    width: 250px;
+    height: 15px;
+    padding: 0px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}} /* Ajuste a largura conforme necessário */
+.skills:hover #mais-aptidao {opacity: 1; visibility: visible;}
 .other-proficiencies { flex-basis: 45%; min-width: 250px; }
 .skills .skill-entry { display: flex; align-items: center; margin-bottom: 5px; }
 .skills .skill-entry input[type="checkbox"] { margin-right: 8px; flex-shrink: 0;}
@@ -151,13 +158,36 @@ input[type="checkbox"] {
 
 .attacks { flex: 1; min-width: 250px; }
 .equipment { flex: 1; min-width: 250px; }
-.attacks #mais-ataque, .inventory-detailed #mais-item,  .attack-entry .edit, .inventory-item .edit, .skill-entry .edit{
+
+.attacks, .inventory-detailed, .attack-entry, .inventory-item, .skill-entry, .attributes, .point-box{
+    position: relative;
+}
+.attacks #mais-ataque, .inventory-detailed #mais-item, .attack-entry .edit, .inventory-item .edit, .skill-entry .edit, .inventory-detailed .calc, .attributes .calc, .point-box .calc{
+    position: absolute;
+
     /* Hide by default using opacity for a smooth transition */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
 }
-.attacks:hover #mais-ataque, .inventory-detailed:hover #mais-item, .attack-entry:hover .edit, .inventory-item:hover .edit, .skill-entry:hover .edit{
+.skill-entry .edit{
+    right: 60px;
+}
+.attack-entry .edit{
+    right: -20px;
+}
+.inventory-item .edit{
+    right: 0px;
+}
+#calc-prot, #calc-vida{
+    right: 10px;
+    top: 10px;
+}
+#calc-limites{
+    top: 5px;
+    left: 250px;
+}
+.attacks:hover #mais-ataque, .inventory-detailed:hover #mais-item, .attack-entry:hover .edit, .inventory-item:hover .edit, .skill-entry:hover .edit, .inventory-detailed:hover .calc, .attributes:hover .calc, .point-box:hover .calc{
     opacity: 1;
     visibility: visible;
 }
@@ -229,9 +259,21 @@ input[type="checkbox"] {
     margin-bottom: 0; /* Remove margin interna do bloco */
 }
 .ability-block textarea { width: 100%; } /* Garante largura total */
-.abilities .edit {display: none;}
-.abilities:hover .edit{display: inherit;}
+.abilities .edit {
+    position: absolute;
+    left: 180px;
+
+    /* Hide by default using opacity for a smooth transition */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+.abilities:hover .edit{
+    opacity: 1;
+    visibility: visible;
+}
 .abilities {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     h3 {
@@ -243,7 +285,8 @@ input[type="checkbox"] {
 
 .ability-card {
     font-family: 'Roboto', sans-serif; /* Example font */
-    max-width: 33%; /* Adjust width as needed */
+    width: 31%; /* Adjust width as needed */
+    margin: 1% 1%;
     border: 1px solid #4a2a4a; /* Dark purple border */
     background-color: #f0e8f0; /* Light lavender background for the body */
     color: #333; /* Default text color */
@@ -271,11 +314,15 @@ img.icon{
     font-size: 1.2em;
     margin-right: 8px;
 }
-.ability-header .edit{
-    display: none;
+.ability-header .edit-ability{
+    /* Hide by default using opacity for a smooth transition */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
 }
-.ability-header:hover .edit{
-    display: inherit;
+.ability-header:hover .edit-ability{
+    opacity: 1;
+    visibility: visible;
 }
 
 .ability-name {
@@ -394,4 +441,10 @@ img.icon{
 .ability-upgrade p.upgrade-desc strong {
      font-weight: bold;
      color: #4a2a4a; /* Darker purple for keywords */
+}
+
+.form-confirm{
+    div{
+        display: flex;
+    }
 }

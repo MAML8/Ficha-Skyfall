@@ -142,7 +142,7 @@ function nova_habilidade(onde, content, elimina=false){
                     '<span class="icon">'+ação_img(content['action'])+'</span>'+
                     '<span class="ability-name">'+content['nome']+'</span>'+
                     ((content['pe']>0) ? ('<span class="ability-cost">'+content['pe']+' PE</span>') : '')+
-                    '<span class="edit"><button type="button" class="edit-habilidade">edit</button>'+
+                    '<span class="edit-ability"><button type="button" class="edit-habilidade">edit</button>'+
                     '<input type="hidden" value="'+save.replaceAll("\"", "||")+'" name="saved-ability[]" class="saved-ability"> </span>'+
                 '</div>'+
                 '<div class="ability-tags">'+
