@@ -1,63 +1,112 @@
+
+function aptidao_entry(){
+    return `<div class="skill-entry">
+        <input type="checkbox" name="prof-aptidao[]">
+        <label for="val-aptidao">Aptidão (<input type="text" size=10 name="nome-aptidao[]">):</label>
+        <button type="button" class="edit" name="menos-skill">-</button>
+        <input type="number" name="val-aptidao[]">
+    </div>`
+}
+
+function new_aptidao(value){
+    let $new;
+    if($('input[name="nome-aptidao[]"]').first().val() == ""){
+        $new = $('input[name="nome-aptidao[]"]').first().parent();
+    } else{
+        $new = $(aptidao_entry());
+        $("#mais-aptidao").before($new);
+    }
+
+    $new.find('input[name="prof-aptidao[]"]').prop('checked', value.prof);
+    $new.find('input[name="nome-aptidao[]"]').val(value.nome);
+    $new.find('input[name="val-aptidao[]"]').val(value.val);
+}
+
 $('#mais-aptidao').on("click", function(e){
-    let quant_aptidao = Math.round($('#quant-aptidao').val());
-    $(this).before('<div class="skill-entry">'+
-        '<input type="checkbox" name="prof-aptidao'+quant_aptidao+'" id="prof-aptidao'+quant_aptidao+'">'+
-        '<label for="val-aptidao'+quant_aptidao+'">Aptidão (<input type="text" size=10 name="nome-aptidao'+quant_aptidao+'">):</label>'+
-        '<button type="button" class="edit" name="menos-aptidao'+quant_aptidao+'" id="menos-aptidao'+quant_aptidao+'">-</button>'+
-        '<input type="number" name="val-aptidao'+quant_aptidao+'" id="val-aptidao'+quant_aptidao+'">'+
-        '</div>');
-    $("#menos-aptidao"+quant_aptidao).on("click", function(e){
-        $(this).parent().remove();
-        $('#quant-aptidao').val(Math.round($('#quant-aptidao').val())-1)
-    });
-    $('#quant-aptidao').val(quant_aptidao+1);
+    $(this).before(aptidao_entry());
 });
+$("#skill-list").on('click', '[name="menos-skill"]', function(){
+    $(this).closest('.skill-entry').remove();
+});
+
+function attack_entry(){
+    return `<div class="attack-entry">
+        <input type="text" name="atk-nome[]">
+        <input type="text" name="atk-bonus[]" size="5">
+        <input type="text" name="atk-dano[]" size="10">
+        <button type="button" class="atk-roll">roll</button>
+        <button type="button" class="edit" name="atk-menos">-</button>
+    </div>
+    `
+}
+
+function new_attack(value){
+    let $newRow = $(".attack-entry").first();
+    if($newRow.find('input[name="atk-nome[]"]').val() != ""){
+        $newRow = $(".attack-entry").not($newRow).first();
+    }
+    if($newRow.find('input[name="atk-nome[]"]').val() != ""){
+        $newRow = $(attack_entry());
+        $("#mais-ataque").parent().before($newRow);
+    }
+
+    $newRow.find('input[name="atk-nome[]"]').val(value.nome);
+    $newRow.find('input[name="atk-bonus[]"]').val(value.bonus);
+    $newRow.find('input[name="atk-dano[]"]').val(value.dano);
+}
 
 $('#mais-ataque').on("click", function(e){
-    let quant_ataques = Math.round($('#quant-ataque').val())+1;
-    $(this).parent().before('<div class="attack-entry">'+
-        '<input type="text" name="atk'+quant_ataques+'-nome">'+
-        '<input type="text" name="atk'+quant_ataques+'-bonus" size="5">'+
-        '<input type="text" name="atk'+quant_ataques+'-dano" size="10">'+
-        '<button type="button" name="atk'+quant_ataques+'-roll">roll</button>'+
-        '<button type="button" class="edit" name="atk'+quant_ataques+'-menos" id="atk'+quant_ataques+'-menos">-</button>'+
-    '</div>');
-    $('#atk'+quant_ataques+'-menos').on("click", function (e) {
-        $(this).parent().remove();
-        $('#quant-ataque').val(Math.round($('#quant-ataque').val())-1);
-    });
-    $('#quant-ataque').val(quant_ataques);
+    $(this).parent().before(attack_entry());
+});
+$('.attacks').on("click", 'button[name="atk-menos"]', function(){
+    $(this).closest(".attack-entry").remove();
 });
 
+function inventory_entry(){
+    return `<div class="inventory-item">
+                <input type="text" name="item-nome[]" placeholder="Nome do item">
+                <input type="number" name="item-vol[]" class="vol-entries">
+                <input type="number" name="item-frag[]" class="frag-entries">
+                <input type="text" name="item-desc[]" placeholder="Descrição...">
+                <button type="button" class="edit" name="menos-item">-</button>
+            </div>`;
+}
+
+function new_item(value){
+    let $newRow = $(".inventory-item").first();
+    if($newRow.find('input[name="item-nome[]"]').val() != ""){
+        $newRow = $(".inventory-item").not($newRow).first();
+    }
+    if($newRow.find('input[name="item-nome[]"]').val() != ""){
+        $newRow = $(inventory_entry());
+        $("#mais-item").parent().before($newRow);
+    }
+
+    $newRow.find('input[name="item-nome[]"]').val(value.nome);
+    $newRow.find('input[name="item-vol[]"]').val(value.vol);
+    $newRow.find('input[name="item-frag[]"]').val(value.frag);
+    $newRow.find('input[name="item-desc[]"]').val(value.desc);
+}
+
 $('#mais-item').on('click', function(e) {
-    let quant_itens = Math.round($('#quant-item').val())+1;
-    $(this).parent().before('<div class="inventory-item">'+
-                '<input type="text" name="item'+quant_itens+'-nome" placeholder="Nome do item">'+
-                '<input type="number" name="item'+quant_itens+'-vol" class="vol-entries">'+
-                '<input type="number" name="item'+quant_itens+'-frag" class="frag-entries">'+
-                '<input type="text" name="item'+quant_itens+'-desc" placeholder="Descrição...">'+
-                '<button class="edit" type="button" name="menos-item'+quant_itens+'" id="menos-item'+quant_itens+'">-</button>'+
-            '</div>');
-    $('#menos-item'+quant_itens).on('click', function(e){
-        $(this).parent().remove();
-        $('#quant-item').val(Math.round($('#quant-item').val())-1);
-    });
-    $('[name="item'+quant_itens+'-vol"]').on("change", on_change_vol);
-    $('[name="item'+quant_itens+'-frag"]').on("change", on_change_frag);
-    $('#quant-item').val(quant_itens);
+    $(this).parent().before(inventory_entry());
 });
+$('.inventory-detailed').on('click', 'button[name="menos-item"]', function(){
+    $(this).closest('.inventory-item').remove();
+});
+
 function ação_img(nome) {
     switch (nome) {
         case "ação":
-            return '<img src="Simbolo Habilidades/Ação.png" class="icon">';
+            return '<img src="imgs/Simbolo Habilidades/Ação.png" class="icon">';
         case "bônus":
-            return '<img src="Simbolo Habilidades/Ação bônus.png" class="icon">';
+            return '<img src="imgs/Simbolo Habilidades/Ação bônus.png" class="icon">';
         case "livre":
-            return '<img src="Simbolo Habilidades/Ação livre.png" class="icon">';
+            return '<img src="imgs/Simbolo Habilidades/Ação livre.png" class="icon">';
         case "reação":
-            return '<img src="Simbolo Habilidades/Reação.png" class="icon">';
+            return '<img src="imgs/Simbolo Habilidades/Reação.png" class="icon">';
         case "mais":
-            return '<img src="Simbolo Habilidades/+Ações.png" class="icon">';
+            return '<img src="imgs/Simbolo Habilidades/+Ações.png" class="icon">';
         default:
             return '<p>Deu ruim</p>';
     }
@@ -86,18 +135,15 @@ function nova_habilidade(onde, content, elimina=false){
         if(elimina) onde.remove();
         return;
     }
+    
+    const save = JSON.stringify(content);
 
-    let quant_habilidade = Math.round($('#quant-habilidade').val());
-    if(!elimina) quant_habilidade++;
-    else {
-         let a = onde.find(".edit button").attr("id");
-         quant_habilidade = Math.round(a[a.length-1]);
-    }
     let card = '<div class="ability-card"> <div class="ability-header">'+
                     '<span class="icon">'+ação_img(content['action'])+'</span>'+
                     '<span class="ability-name">'+content['nome']+'</span>'+
                     ((content['pe']>0) ? ('<span class="ability-cost">'+content['pe']+' PE</span>') : '')+
-                    '<span class="edit"><button type="button" id="edit-ability'+quant_habilidade+'">edit</button></span>'+
+                    '<span class="edit"><button type="button" class="edit-habilidade">edit</button>'+
+                    '<input type="hidden" value="'+save.replaceAll("\"", "||")+'" name="saved-ability[]" class="saved-ability"> </span>'+
                 '</div>'+
                 '<div class="ability-tags">'+
                     descritores(content['tags'])+
@@ -124,19 +170,17 @@ function nova_habilidade(onde, content, elimina=false){
         }
         card+='</div>';
     }
-    save = JSON.stringify(content);
 
-    card += '<input type="hidden" value="'+save.replaceAll("\"", "||")+'" name="saved-ability'+quant_habilidade+'" id="saved-ability'+quant_habilidade+'"> </div>';
+    card += '</div>';
     onde.before(card);
     if(elimina){
         onde.remove();
-    } else {
-        $('#quant-habilidade').val(quant_habilidade);
     }
-    $('#edit-ability'+quant_habilidade).on("click", function () {
-        edit_habilidade($(this).parent().parent().parent(), save);
-    });
 }
+
+$('.abilities').on('click', '.edit-habilidade', function(){
+    edit_habilidade($(this).closest('.ability-card'), $(this).parent().find('.saved-ability').val().replaceAll("||", "\""));
+})
 
 function edit_habilidade(onde, save=null){
     $.confirm({

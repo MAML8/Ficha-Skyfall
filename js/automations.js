@@ -44,6 +44,6 @@ function on_change_frag(){
     }
 }
 
-$(".vol-entries").on("change", on_change_vol);
+$(".inventory-detailed").on("change", ".vol-entries", on_change_vol);
 
-$(".frag-entries").on("change", on_change_frag);
+$(".inventory-detailed").on("change", ".frag-entries", on_change_frag);

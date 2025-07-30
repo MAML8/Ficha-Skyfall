@@ -2,35 +2,14 @@ $(function(){
 
     const localStorageKeyPrefix = "skyfallCharacterSheetData-";
     const $form = $("#character-sheet");
-    const exclusions = ["quant-habilidade", "bonus-prof"]
+    const exclusions = ["bonus-prof"]
 
     function clearForm(){
-        let aux = Math.round($("#quant-habilidade").val());
-        for(let i = aux; i>0; i--){
-            nova_habilidade($("#saved-ability"+i).parent(), null, true);
-        }
-        $("#quant-habilidade").val(0);
-        let i = 1;
-        let $testesito = $("#menos-aptidao1");
-        while($testesito.length){
-            $testesito.trigger("click");
-            i++;
-            $testesito = $("#menos-aptidao"+i);
-        }
-        i = 3;
-        $testesito = $("#atk3-menos");
-        while($testesito.length){
-            $testesito.trigger("click");
-            i++;
-            $testesito = $("#atk"+i+"-menos");
-        }
-        i = 3;
-        $testesito = $("#menos-item3");
-        while($testesito.length){
-            $testesito.trigger("click");
-            i++;
-            $testesito = $("#menos-item"+i);
-        }
+        
+        $('.ability-card').remove();
+        $('button[name="menos-skill"]').closest(".skill-entry").remove();
+        $('button[name="atk-menos"]').closest(".attack-entry").remove();
+        $('button[name="menos-item"]').closest(".inventory-item").remove();
         $("#character-sheet")[0].reset();
     }
 
@@ -50,7 +29,7 @@ $(function(){
         })
     }
 
-    function getFormData() {
+    function getFormData() {/*
         const formDataArray = $form.serializeArray();
 
         let dataObject = {};
@@ -64,6 +43,63 @@ $(function(){
             }
             dataObject[field.name] = field.value;
         });
+
+        return dataObject;*/
+        let dataObject = {};
+        $form.find('input, textarea, select').not($("#skill-list").find('[name="prof-aptidao[]"], [name="nome-aptidao[]"], [name="val-aptidao[]"]')).not($(".inventory-item input, .attack-entry input, .saved-ability")).each(function(){
+            let $el = $(this);
+            if($el.attr("name")){
+                dataObject[$el.attr("name")] = (!$el.is(":checkbox") ? $el.val() : $el.prop("checked"));
+            }
+        });
+
+        dataObject.aptidoes = [];
+        $form.find('.skill-entry').each(function() {
+            const $row = $(this);
+            if(!$row.find('[name="prof-aptidao[]"]').length) return;
+
+            const entry = {
+                'prof': $row.find('[name="prof-aptidao[]"]').prop("checked"),
+                'nome': $row.find('[name="nome-aptidao[]"]').val() != "" ? $row.find('[name="nome-aptidao[]"]').val() : 'a',
+                'val': $row.find('[name="val-aptidao[]"]').val()
+            };
+            dataObject.aptidoes.push(entry);
+        });
+
+        dataObject.attacks = [];
+        $form.find('.attack-entry').each(function(){
+            const $row = $(this);
+
+            const entry = {
+                'nome': $row.find('[name="atk-nome[]"]').val() != "" ? $row.find('[name="atk-nome[]"]').val() : 'a',
+                'bonus': $row.find('[name="atk-bonus[]"]').val(),
+                'dano': $row.find('[name="atk-dano[]"]').val()
+            }
+            dataObject.attacks.push(entry);
+        });
+
+        dataObject.inventory = [];
+        $form.find('.inventory-item').each(function(){
+            const $row = $(this);
+
+            const entry = {
+                'nome': $row.find('[name="item-nome[]"]').val() != "" ? $row.find('[name="item-nome[]"]').val() : 'a',
+                'vol': $row.find('[name="item-vol[]"]').val(),
+                'frag': $row.find('[name="item-frag[]"]').val(),
+                'desc': $row.find('[name="item-desc[]"]').val()
+            }
+
+            dataObject.inventory.push(entry);
+        });
+
+        dataObject.habilidades = [];
+        $form.find('.saved-ability').each(function(){
+            const $row = $(this);
+
+            const entry = JSON.parse($row.val().replaceAll("||", "\""));
+
+            dataObject.habilidades.push(entry);
+        })
 
         return dataObject;
     }
@@ -115,10 +151,41 @@ $(function(){
         }
 
         clearForm();
-        //for(let key in source){
-            //console.log(key, source[key]);
-            //let value = source[key];
+
         $.each(source, function(key, value) {
+
+            if(Array.isArray(value)){
+                if(key === "habilidades"){
+                    value.forEach(function(obje){
+                        let $onde = $("#mais-habilidade").parent();
+                        if(obje['tags'].includes("truque")){
+                            $onde = $("#mais-truque").parent();
+                        } else if(obje['tags'].includes("superficial")){
+                            $onde = $("#mais-superficial").parent();
+                        } else if(obje['tags'].includes("rasa")){
+                            $onde = $("#mais-rasa").parent();
+                        } else if(obje['tags'].includes("profunda")){
+                            $onde = $("#mais-profunda").parent();
+                        }
+                        nova_habilidade($onde, obje);
+                    });
+                } else if (key === "aptidoes"){
+                    value.forEach(function(aux){
+                        new_aptidao(aux);
+                    });
+                } else if (key === "attacks"){
+                    value.forEach(function(aux){
+                        new_attack(aux);
+                    });
+                } else if (key === "inventory"){
+                    value.forEach(function(aux){
+                        new_item(aux);
+                    });
+                }
+            }
+            for(let i = 0; i<exclusions.length; i++){
+                if(key===exclusions[i]) return;
+            }
             // Find the element within the form by its 'name' attribute.
             const $element = $form.find(`[name="${key}"]`);
             // If the element exists...
@@ -128,42 +195,9 @@ $(function(){
                     // .prop() is the correct way to set properties like 'checked'.
                     // The value will be true or false from our saveData function.
                     $element.prop('checked', value === 'on' || value === true);
-                } else if($element.is(':hidden')){
-                    switch(key){
-                        case "quant-aptidao":
-                            for(let i = value; i>1; i--){
-                                $("#mais-aptidao").trigger("click");
-                            }
-                            return;
-                        case "quant-ataque":
-                            for(let i = value; i>2; i--){
-                                $("#mais-ataque").trigger("click");
-                            }
-                            return;
-                        case "quant-item":
-                            for(let i = value; i>2; i--){
-                                $("#mais-item").trigger("click");
-                            }
-                            return;
-                        default:
-                            break;
-                    }
                 } else {
                     $element.val(value);
                 }
-            } else if(key.startsWith("saved-ability")){
-                let obje = value;
-                let $onde = $("#mais-habilidade").parent();
-                if(obje['tags'].includes("truque")){
-                    $onde = $("#mais-truque").parent();
-                } else if(obje['tags'].includes("superficial")){
-                    $onde = $("#mais-superficial").parent();
-                } else if(obje['tags'].includes("rasa")){
-                    $onde = $("#mais-rasa").parent();
-                } else if(obje['tags'].includes("profunda")){
-                    $onde = $("#mais-profunda").parent();
-                }
-                nova_habilidade($onde, obje);
             }
         });
 

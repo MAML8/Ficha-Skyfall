@@ -169,7 +169,7 @@
                  <div class="stat-box"> <label>Redução de Dano</label> <input type="number" name="rd"> </div>
             </div>
 
-            <div class="skills-proficiencies">
+            <div class="skills-proficiencies" id="skill-list">
                 <div class="skills">
                     <h3>Perícias</h3>
                     <div class="skill-entry">
@@ -177,11 +177,10 @@
                         <label for="val-apresentacao">Apresentação:</label>
                         <input type="number" name="val-apresentacao" id="val-apresentacao">
                     </div>
-                    <input type="hidden" name="quant-aptidao" id="quant-aptidao" value=1>
                     <div class="skill-entry">
-                        <input type="checkbox" name="prof-aptidao" id="prof-aptidao">
-                        <label for="val-aptidao">Aptidão (<input type="text" size=10 name="nome-aptidao">):</label>
-                        <input type="number" name="val-aptidao" id="val-aptidao">
+                        <input type="checkbox" name="prof-aptidao[]">
+                        <label for="val-aptidao[]">Aptidão (<input type="text" size=10 name="nome-aptidao[]">):</label>
+                        <input type="number" name="val-aptidao[]">
                     </div>
                     <button type="button" id="mais-aptidao" name="mais-aptidao">+</button>
                     <div class="skill-entry">
@@ -274,18 +273,17 @@
                     <div class="attack-header">
                         <span>Nome</span><span>Bônus</span><span>Dano</span>
                     </div>
-                    <input type="hidden" name="quant-ataque" id="quant-ataque" value="2">
                     <div class="attack-entry">
-                        <input type="text" name="atk1-nome">
-                        <input type="text" name="atk1-bonus" size="5">
-                        <input type="text" name="atk1-dano" size="10">
-                        <button type="button" name="atk1-roll">roll</button>
+                        <input type="text" name="atk-nome[]">
+                        <input type="text" name="atk-bonus[]" size="5">
+                        <input type="text" name="atk-dano[]" size="10">
+                        <button type="button" class="atk-roll">roll</button>
                     </div>
                     <div class="attack-entry">
-                        <input type="text" name="atk2-nome">
-                        <input type="text" name="atk2-bonus" size="5">
-                        <input type="text" name="atk2-dano" size="10">
-                        <button type="button" name="atk2-roll">roll</button>
+                        <input type="text" name="atk-nome[]">
+                        <input type="text" name="atk-bonus[]" size="5">
+                        <input type="text" name="atk-dano[]" size="10">
+                        <button type="button" class="atk-roll">roll</button>
                     </div>
                     <div class="edit">
                         <button type="button" name="mais-ataque" id="mais-ataque">+</button>
@@ -318,19 +316,17 @@
                 <span>Nome</span>
                 <span>Vol</span> <span>Frag</span> <span>Descritores / Notas</span>
             </div>
-
-            <input type="hidden" name="quant-item" id="quant-item" value=2>
             <div class="inventory-item">
-                <input type="text" name="item1-nome" placeholder="Nome do item">
-                <input type="number" name="item1-vol" class="vol-entries">
-                <input type="number" name="item1-frag" class="frag-entries">
-                <input type="text" name="item1-desc" placeholder="Descrição...">
+                <input type="text" name="item-nome[]" placeholder="Nome do item">
+                <input type="number" name="item-vol[]" class="vol-entries">
+                <input type="number" name="item-frag[]" class="frag-entries">
+                <input type="text" name="item-desc[]" placeholder="Descrição...">
             </div>
             <div class="inventory-item">
-                <input type="text" name="item2-nome" placeholder="Nome do item">
-                <input type="number" name="item2-vol" class="vol-entries">
-                <input type="number" name="item2-frag" class="frag-entries">
-                <input type="text" name="item2-desc" placeholder="Descrição...">
+                <input type="text" name="item-nome[]" placeholder="Nome do item">
+                <input type="number" name="item-vol[]" class="vol-entries">
+                <input type="number" name="item-frag[]" class="frag-entries">
+                <input type="text" name="item-desc[]" placeholder="Descrição...">
             </div>
             <div class="edit">
                 <button type="button" id="mais-item">+</button>
@@ -388,7 +384,6 @@
                     <button class="mais-habilidade" type="button" id="mais-profunda">+</button>
                 </div>
             </div>
-            <input type="hidden" name="quant-habilidade" id="quant-habilidade" value=0>
         </section>
             
         <!--
