@@ -1,13 +1,14 @@
 $(function(){
-
     const localStorageKeyPrefix = "skyfallCharacterSheetData-";
     const $form = $("#character-sheet");
-    const exclusions = ["bonus-prof"]
+    const exclusions = ["bonus-prof"];
 
     function clearForm(){
         
         $('.ability-card').remove();
         $('button[name="menos-skill"]').closest(".skill-entry").remove();
+        $('.prof-indicator').val(0);
+        $('.prof-icon').attr("src", prof_img(0));
         $('button[name="atk-menos"]').closest(".attack-entry").remove();
         $('button[name="menos-item"]').closest(".inventory-item").remove();
         $("#character-sheet")[0].reset();
@@ -59,7 +60,7 @@ $(function(){
             if(!$row.find('[name="prof-aptidao[]"]').length) return;
 
             const entry = {
-                'prof': $row.find('[name="prof-aptidao[]"]').prop("checked"),
+                'prof': $row.find('[name="prof-aptidao[]"]').val(),
                 'nome': $row.find('[name="nome-aptidao[]"]').val() != "" ? $row.find('[name="nome-aptidao[]"]').val() : 'a',
                 'val': $row.find('[name="val-aptidao[]"]').val()
             };
@@ -104,12 +105,21 @@ $(function(){
         return dataObject;
     }
 
-    function saveData() {
+    function saveData(alert = true) {
         const dataObject = getFormData();
+        applyVersion(dataObject);
 
         localStorage.setItem(localStorageKeyPrefix+dataObject['char-name'], LZString.compressToUTF16(JSON.stringify(dataObject)));
 
-        $.alert("Ficha salva com sucesso")
+        markUrl(dataObject);
+        if(alert) $.alert("Ficha de "+dataObject['char-name']+" salva com sucesso");
+    }
+    function markUrl(dataObject){
+        const newUrl = '?nome=' + encodeURIComponent(dataObject['char-name']);
+        const state = { nome: dataObject['char-name'] };
+        const title = "Ficha Skyfall RPG"; // Title is often ignored by browsers, but good practice
+
+        history.pushState(state, title, newUrl);
     }
 
     function exportData(){
@@ -126,7 +136,7 @@ $(function(){
         // Create a temporary link element to trigger the download.
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'skyfall_ficha.json'; // The default filename for the download.
+        a.download = 'skyfall_ficha_'+dataObject['char-name']+'.json'; // The default filename for the download.
         
         // Programmatically click the link to start the download.
         document.body.appendChild(a);
@@ -137,18 +147,19 @@ $(function(){
         URL.revokeObjectURL(url);
     }
 
-    function loadData(source){
+    function loadData(source, alert=true){
         if(source instanceof String || typeof source === 'string'){
             const savedDataString = LZString.decompressFromUTF16(localStorage.getItem(localStorageKeyPrefix+source));
             if(!savedDataString){
-                $.alert("Nenhuma ficha salva com este nome encontrada.");
+                if(alert) $.alert("Nenhuma ficha salva com este nome encontrada.");
                 return;
             }
             source = JSON.parse(savedDataString);
         } else if(!source){
-            $.alert("arquivo recebido mal formado");
+            if(alert) $.alert("arquivo recebido mal formado");
                 return;
         }
+        verifyVersion(source);
 
         clearForm();
 
@@ -197,11 +208,14 @@ $(function(){
                     $element.prop('checked', value === 'on' || value === true);
                 } else {
                     $element.val(value);
+                    if($element.is(".prof-indicator")){
+                        $element.parent().find(".prof-icon").attr("src", prof_img(Number(value)));
+                    }
                 }
             }
         });
 
-        $.alert("Ficha carregada com sucesso!");
+        if(alert) $.alert("Ficha carregada com sucesso!");
     }
 
     $("#clear-button").on("click", clearData);
@@ -253,4 +267,20 @@ $(function(){
             }
         })
     });
+
+    function auto_load_from_url(){
+        const url_param = new URLSearchParams(window.location.search);
+        const char_name = url_param.get('nome');
+        if(char_name){
+            loadData(char_name, false);
+        }
+    }
+
+    $(window).on('popstate', function(event) {
+        // When the history changes, re-run the auto-load logic.
+        // This keeps the page content in sync with the URL.
+        auto_load_from_url();
+    });
+
+    auto_load_from_url();
 });

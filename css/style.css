@@ -152,9 +152,14 @@ input[type="checkbox"] {
 .skills:hover #mais-aptidao {opacity: 1; visibility: visible;}
 .other-proficiencies { flex-basis: 45%; min-width: 250px; }
 .skills .skill-entry { display: flex; align-items: center; margin-bottom: 5px; }
-.skills .skill-entry input[type="checkbox"] { margin-right: 8px; flex-shrink: 0;}
 .skills .skill-entry label { flex-grow: 1; margin-bottom: 0; font-weight: normal; }
 .skills .skill-entry input[type="number"] { width: 50px; margin-left: 10px; margin-bottom: 0; flex-shrink: 0; }
+.skills .prof-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    cursor: pointer;
+}
 
 .attacks { flex: 1; min-width: 250px; }
 .equipment { flex: 1; min-width: 250px; }

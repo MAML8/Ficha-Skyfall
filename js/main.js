@@ -1,7 +1,8 @@
 
 function aptidao_entry(){
     return `<div class="skill-entry">
-        <input type="checkbox" name="prof-aptidao[]">
+        <img src="imgs\\proficiencia\\None.png" class="prof-icon">
+        <input type="hidden" class="prof-indicator" name="prof-aptidao[]" value="0">
         <label for="val-aptidao">Aptidão (<input type="text" size=10 name="nome-aptidao[]">):</label>
         <button type="button" class="edit" name="menos-skill">-</button>
         <input type="number" name="val-aptidao[]">
@@ -17,7 +18,8 @@ function new_aptidao(value){
         $("#mais-aptidao").before($new);
     }
 
-    $new.find('input[name="prof-aptidao[]"]').prop('checked', value.prof);
+    $new.find('input[name="prof-aptidao[]"]').val(value.prof);
+    $new.find('.prof-icon').attr("src", prof_img(Number(value.prof)));
     $new.find('input[name="nome-aptidao[]"]').val(value.nome);
     $new.find('input[name="val-aptidao[]"]').val(value.val);
 }
@@ -166,7 +168,7 @@ function nova_habilidade(onde, content, elimina=false){
             '<span class="upgrade-cost">+'+content['mod'+i+'-custo']+' '+content['mod'+i+'-p'].toUpperCase()+'</span>'+
             '<span class="upgrade-type">['+content['mod'+i+'ifica'].toUpperCase()+']</span>';
         for(j = 1; j<=Math.round(content['quant-mod'+i]); j++){
-            card += '<p class="upgrade-desc"><strong>'+content['mod'+i+'-prop'+j]+'</strong> '+content['mod'+i+'-desc'+j]+'</p>';
+            card += '<p class="upgrade-desc"><strong>'+content['mod'+i+'-prop'+j]+':</strong> '+content['mod'+i+'-desc'+j]+'</p>';
         }
         card+='</div>';
     }
@@ -181,6 +183,26 @@ function nova_habilidade(onde, content, elimina=false){
 $('.abilities').on('click', '.edit-habilidade', function(){
     edit_habilidade($(this).closest('.ability-card'), $(this).parent().find('.saved-ability').val().replaceAll("||", "\""));
 })
+
+function mod_mais(quant_mod, quant_mods){
+    let retorno = `
+        <div><select name="mod${quant_mod}-prop${quant_mods}" id="mod${quant_mod}-prop${quant_mods}">
+            <option value="Alcance">Alcance</option>
+            <option value="Alvo">Alvo</option>
+            <option value="Duração">Duração</option>
+            <option value="Ataque">Ataque</option>
+            <option value="Gatilho">Gatilho</option>
+            <option value="Acerto">Acerto</option>
+            <option value="Erro">Erro</option>
+            <option value="Efeito">Efeito</option>
+            <option value="Especial">Especial</option>
+        </select>:<textarea name="mod${quant_mod}-desc${quant_mods}" id="mod${quant_mod}-desc${quant_mods}"></textarea>
+    `;
+    if(quant_mods>1)
+        retorno += `<button id="mod${quant_mod}-menos${quant_mod}">-</button>`;
+    retorno += '</div>';
+    return retorno;
+}
 
 function edit_habilidade(onde, save=null){
     $.confirm({
@@ -218,7 +240,7 @@ function edit_habilidade(onde, save=null){
             '<div>'+
                 '<h2>Modificações</h2>'+
                 '<button type="button" id="mais-modificacao">+</button>'+
-                '<input type="hidden" id="quant-modificacao" value=0>'+
+                '<input type="hidden" id="quant-modificacao" name="quant-modificacao" value=0>'+
             '</div>'+
         '</form>',
         buttons: {
@@ -234,6 +256,7 @@ function edit_habilidade(onde, save=null){
                         }
                         obje[field.name] = field.value;
                     });
+                    console.log(obje);
                     nova_habilidade(onde, obje, save!=null);
                 }
             },
@@ -247,13 +270,13 @@ function edit_habilidade(onde, save=null){
                 let quant_mod = Math.round(cont.find('#quant-modificacao').val()) + 1;
                 $(this).before('<div class="ability-upgrade">'+
                     '<h3>Mod'+quant_mod+'</h3> <button class="edit" type="button" id="mod'+quant_mod+'-menos">-</button>'+
-                    '<span><label for="mod'+quant_mod+'-custo">-M +</label><\span>'+
+                    '<span><label for="mod'+quant_mod+'-custo">Custo</label> <label for="mod'+quant_mod+'ifica">Modificação</label><\span>'+
                     '<span><input type="number" name="mod'+quant_mod+'-custo" id="mod'+quant_mod+'-custo"></span>'+
                     '<span><select name="mod'+quant_mod+'-p" id="mod'+quant_mod+'-p"> <option value="pe">pe</option> <option value="pc">pc</option> </select></span>'+
                     '<span><input type="text" name="mod'+quant_mod+'ifica" id="mod'+quant_mod+'ifica" size=30></span>'+
-                    '<div><input type="text" name="mod'+quant_mod+'-prop1" id="mod'+quant_mod+'-prop1" size=20>:<input type="text" name="mod'+quant_mod+'-desc1" id="mod'+quant_mod+'-desc1" size=75></div>'+
+                    mod_mais(quant_mod, 1)+
                     '<button type="button" id="mais-mod'+quant_mod+'">+</button>'+
-                    '<input type="hidden" id="quant-mod'+quant_mod+'" value=1>'+
+                    '<input type="hidden" id="quant-mod'+quant_mod+'" name="quant-mod'+quant_mod+'" value=1>'+
                 '</div>');
                 cont.find('#mod'+quant_mod+'-menos').on("click", function(){
                     $(this).parent().remove();
@@ -261,7 +284,7 @@ function edit_habilidade(onde, save=null){
                 });
                 cont.find('#mais-mod'+quant_mod).on("click", function(){
                     let quant_mods = Math.round(cont.find('#quant-mod'+quant_mod).val()) + 1;
-                    $(this).before('<div><input type="text" name="mod'+quant_mod+'-prop'+quant_mods+'" id="mod'+quant_mod+'-prop'+quant_mods+'" size=20>:<input type="text" name="mod'+quant_mod+'-desc'+quant_mods+'" id="mod'+quant_mod+'-desc'+quant_mods+'" size=75> <button id="mod'+quant_mod+'-menos'+quant_mods+'">-</button></div>');
+                    $(this).before(mod_mais(quant_mod, quant_mods));
                     cont.find('#mod'+quant_mod+'-menos'+quant_mods).on("click", function(){
                         $(this).parent().remove();
                         cont.find('#quant-mod'+quant_mod).val(Math.round(cont.find('#quant-mod'+quant_mod).val())-1);

@@ -1,5 +1,13 @@
+const PERICIAS = ["apresentacao", "arcanismo", "cultura", "diplomacia", "doutrinas", "furtividade",
+                "intimidacao", "intuicao", "magitec", "malandragem", "manipulacao", "medicina", "natureza",
+                "percepcao", "preparo"];
+
 function bonus_de_proficiência(){
     return 2 + Math.floor(($("#char-level").val()-1) / 4);
+}
+
+function attr_de_conjuração(){
+    return Number($('#attr-'+$("#magic-attr").val()).val());
 }
 
 function roll_d(num){
@@ -135,7 +143,7 @@ $("#calc-vida").on('click', function(){
                 result += 2 + nvTotal;
             }
             if(this.$content.find('[name="ances-drag"]').prop("checked")){
-                result += Number($('#attr-'+$("#magic-attr").val()).val());
+                result += attr_de_conjuração();
             }
             if(this.$content.find('[name="bencao"]').prop("checked")){
                 result += nvTotal;
@@ -144,4 +152,81 @@ $("#calc-vida").on('click', function(){
             $('input[name="pv-maximos"]').val(result);
         }
     )
-})
+});
+
+$("#calc-limites").on('click', calc_limites);
+
+function calc_limites(){
+    confirmar_calc("Calcular Limites de Carga e Fragmentos Arcanos",
+        `<p>Limites serão calculados conforme For e Car preenchidos</p>
+        <p>Em casos de informações preencher a seguir:</p>
+        <form action="" class="form-confirm">
+            <p>Carga</p>
+            <div><label for="vendedor">Trilha Vendedor Ambulante?</label><input type="checkbox" name="vendedor" id="vendedor"></div>
+            <div><label for="jotun">Jotun?</label><input type="checkbox" name="jotun" id="jotun"></div>
+            <div><label for="andarilho">Talento Caminho do Andarilho? (de Humani)</label><input type="checkbox" name="andarilho" id="andarilho"></div>
+            <div><label for="esp-extra">Talento Espaço Extra? (de Artesão de Guilda)</label><input type="checkbox" name="esp-extra" id="esp-extra"></div>
+
+            <p>Fragmentos</p>
+            <div><label for="acumulador">Talento Acumulador de Fragmentos? (de Magitécnico)</label><input type="checkbox" name="acumulador" id="acumulador"></div>
+            <div><label for="porrada">Talento Porrada Mágica? (de Pugilista)</label><input type="checkbox" name="porrada" id="porrada"></div>
+        </form>`,
+        function(){
+            let quo = Number($("#attr-for").val());
+            if(this.$content.find("#vendedor").prop("checked")){
+                quo = Math.max(quo, attr_de_conjuração());
+                quo += bonus_de_proficiência();
+            }
+            if(this.$content.find("#andarilho").prop("checked")){
+                if(this.$content.find("#jotun").prop("checked")){
+                    $.alert("Como assim você é um Jotun com talento de Humani!!??? >:(");
+                    calc_limites();
+                    return;
+                }
+                quo += 3;
+            }
+            let lim = 16 + (quo >= 0 ? quo * 3 : quo * 2);
+            if(this.$content.find("#jotun").prop("checked")) lim += 5;
+            if(this.$content.find("#esp-extra").prop("checked")) lim += bonus_de_proficiência();
+
+            $("#carga-limite").val(lim);
+
+            quo = Number($("#attr-car").val());
+            if(this.$content.find("#acumulador").prop("checked")){
+                quo = Math.max(quo, attr_de_conjuração());
+            }
+            if(this.$content.find("#porrada").prop("checked")){
+                quo = Math.max(quo, Number($("#attr-for").val()), Number($("#attr-con").val()));
+            }
+            lim = quo + bonus_de_proficiência() * 2;
+            $("#frag-limite").val(lim);
+        }
+    );
+}
+
+function prof_img(prof){
+    switch(prof){
+        case 0:
+            return "imgs/proficiencia/None.png";
+        case 1:
+            return "imgs/proficiencia/Prof.png";
+        case 2:
+            return "imgs/proficiencia/Exp.png";
+        default:
+            console.error("Bruh");
+            return "imgs/Simbolo Habilidades/Tabela Necromante.png";
+    }
+}
+
+$("#skill-list").on("click", ".prof-icon", function(){
+    const $img = $(this);
+    const $prof = $img.parent().find('.prof-indicator');
+    let new_prof = Number($prof.val());
+    if(Number.isNaN(new_prof))
+        new_prof = -1;
+    
+    new_prof++;
+    new_prof %= 3;
+    $prof.val(new_prof);
+    $img.attr("src", prof_img(new_prof));
+});
