@@ -46,9 +46,9 @@ function on_change_frag(){
     }
 }
 
-$(".inventory-detailed").on("change", ".vol-entries", on_change_vol);
+$("#inventory").on("change", ".vol-entries", on_change_vol);
 
-$(".inventory-detailed").on("change", ".frag-entries", on_change_frag);
+$("#inventory").on("change", ".frag-entries", on_change_frag);
 
 const atributos = ["for", "des", "con", "int", "sab", "car"];
 

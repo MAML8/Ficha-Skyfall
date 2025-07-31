@@ -93,7 +93,7 @@ function new_item(value){
 $('#mais-item').on('click', function(e) {
     $(this).parent().before(inventory_entry());
 });
-$('.inventory-detailed').on('click', 'button[name="menos-item"]', function(){
+$('#inventory').on('click', 'button[name="menos-item"]', function(){
     $(this).closest('.inventory-item').remove();
 });
 
@@ -333,4 +333,31 @@ function edit_habilidade(onde, save=null){
 
 $('.mais-habilidade').on("click", function(){
     edit_habilidade($(this).parent(), null);
+});
+
+$('.page-nav').on('click', '.nav-button', function(){
+    const $this = $(this);
+    const targetPanelId = $this.data('target');
+
+    $('.nav-button').removeClass('active');
+    $('.content-panel').removeClass('active');
+
+    $this.addClass('active');
+    $(targetPanelId).addClass('active');
+});
+
+$('.hide-button').on('click', function(){
+    const $button = $(this);
+    const $parent = $button.parent();
+    const new_state = $button.data('shown');
+
+    if(new_state){
+        $parent.addClass('hidden');
+        $button.html('<');
+        $button.data('shown', false);
+    } else {
+        $parent.removeClass('hidden');
+        $button.html('v');
+        $button.data('shown', true);
+    }
 });

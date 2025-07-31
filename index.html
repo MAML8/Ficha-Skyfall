@@ -22,7 +22,7 @@
             </div>
         </header>
 
-        <section class="main-info">
+        <section id="main">
             <div class="char-details">
                 <div class="field-group inline">
                     <label for="char-name">Nome da Personagem:</label>
@@ -62,7 +62,16 @@
                     <input type="text" id="char-curse" name="char-curse" size="10">
                 </div>
             </div>
+            <nav class="page-nav">
+                <button type="button" class="nav-button active" data-target="#general">Geral</button>
+                <button type="button" class="nav-button" data-target="#class">Classe e Trilha</button>
+                <button type="button" class="nav-button" data-target="#inventory">Inventário</button>
+                <button type="button" class="nav-button" data-target="#abilities">Habilidades e Magias</button>
+                <button type="button" class="nav-button" data-target="#notes">Notas</button>
+            </nav>
+        </section>
 
+        <section class="content-panel active" id="general">
             <div class="attributes-and-points">
                 <div class="attributes">
                     <h3>Atributos & Proteção</h3>
@@ -284,7 +293,21 @@
                     <textarea name="curse" rows="4"></textarea>
                 </div>
             </div>
+        </section>
 
+        <section class="content-panel" id="class">
+            <div class="other-proficiencies">
+                <h2>Classe</h2>
+                <textarea name="class-characteristics" rows="8"></textarea>
+            </div>
+            <div class="other-proficiencies">
+                <h2>Trilha</h2>
+                <textarea name="path-characteristics" rows="8"></textarea>
+            </div>
+        </section>
+
+        <section class="content-panel" id="inventory">
+            
             <div class="attacks-equipment">
                 <div class="attacks">
                     <h3>Ataques</h3>
@@ -316,10 +339,8 @@
                         <label for="money-sk">K$:</label> <input type="number" name="money-sk">
                     </div>
                 </div>
-             </div>
-        </section>
+            </div>
 
-        <section class="inventory-detailed">
             <h2>Inventário Detalhado</h2>
             <button type="button" class="calc" id="calc-limites">calcular limites</button> 
             <div class="totals">
@@ -352,7 +373,7 @@
             </div>
         </section>
 
-        <section class="abilities-spells">
+        <section class="content-panel" id="abilities">
             <h2>Habilidades / Magias</h2>
 
             <div class="ability-block">
@@ -375,30 +396,35 @@
             </div>
             <div class="abilities">
                 <h3>Habilidades</h3>
+                <button type="button" data-shown="true" class="hide-button">v</button>
                 <div class="edit">
                     <button class="mais-habilidade" type="button" id="mais-habilidade">+</button>
                 </div>
             </div>
             <div class="abilities">
                 <h3>Truques</h3>
+                <button type="button" data-shown="true" class="hide-button">v</button>
                 <div class="edit">
                     <button class="mais-habilidade" type="button" id="mais-truque">+</button>
                 </div>
             </div>
             <div class="abilities">
                 <h3>Camada Superficial</h3>
+                <button type="button" data-shown="true" class="hide-button">v</button>
                 <div class="edit">
                     <button class="mais-habilidade" type="button" id="mais-superficial">+</button>
                 </div>
             </div>
             <div class="abilities">
                 <h3>Camada Rasa</h3>
+                <button type="button" data-shown="true" class="hide-button">v</button>
                 <div class="edit">
                     <button class="mais-habilidade" type="button" id="mais-rasa">+</button>
                 </div>
             </div>
             <div class="abilities">
                 <h3>Camada Profunda</h3>
+                <button type="button" data-shown="true" class="hide-button">v</button>
                 <div class="edit">
                     <button class="mais-habilidade" type="button" id="mais-profunda">+</button>
                 </div>
@@ -436,6 +462,12 @@
             </div>
         </div>
         -->
+        <section class="content-panel" id="notes">
+            <div class="other-proficiencies">
+                <h2>Nota</h2>
+                <textarea name="notes" rows="16"></textarea>
+            </div>
+        </section>
     </form>
 
     <script src="js/jquery.min.js"></script>
