@@ -346,8 +346,8 @@ input[type="checkbox"] {
 
 .ability-card {
     font-family: 'Roboto', sans-serif; /* Example font */
-    width: 31%; /* Adjust width as needed */
-    margin: 1% 1%;
+    width: 32.6%;
+    margin: 0.2%;
     border: 1px solid #4a2a4a; /* Dark purple border */
     background-color: #f0e8f0; /* Light lavender background for the body */
     color: #333; /* Default text color */
