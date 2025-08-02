@@ -213,10 +213,15 @@ input[type="checkbox"] {
 .attacks, #inventory, .attack-entry, .inventory-item, .skill-entry, .attributes, .point-box{
     position: relative;
 }
-.attacks #mais-ataque, #inventory #mais-item, .attack-entry .edit, .inventory-item .edit, .skill-entry .edit, #inventory .calc, .attributes .calc, .point-box .calc{
+.attacks #mais-ataque, #inventory #mais-item, .attack-entry .edit, .inventory-item .edit, .skill-entry .edit, .attributes .calc, .point-box .calc{
     position: absolute;
 
     /* Hide by default using opacity for a smooth transition */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+#inventory div .calc{
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
@@ -234,11 +239,7 @@ input[type="checkbox"] {
     right: 10px;
     top: 10px;
 }
-#calc-limites{
-    top: 5px;
-    left: 250px;
-}
-.attacks:hover #mais-ataque, #inventory:hover #mais-item, .attack-entry:hover .edit, .inventory-item:hover .edit, .skill-entry:hover .edit, #inventory:hover .calc, .attributes:hover .calc, .point-box:hover .calc{
+.attacks:hover #mais-ataque, #inventory:hover #mais-item, .attack-entry:hover .edit, .inventory-item:hover .edit, .skill-entry:hover .edit, #inventory div:hover .calc, .attributes:hover .calc, .point-box:hover .calc{
     opacity: 1;
     visibility: visible;
 }
