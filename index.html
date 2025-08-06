@@ -174,10 +174,19 @@
             </div>
 
             <div class="combat-stats">
-                 <div class="stat-box"> <label>Bônus de Prof.</label> <input type="number" id="bonus-prof" name="bonus-prof" readonly=true> </div>
-                 <div class="stat-box"> <label>Iniciativa</label> <input type="number" name="iniciativa"> </div>
-                 <div class="stat-box"> <label>Deslocamento</label> <input type="text" name="deslocamento"> </div>
-                 <div class="stat-box"> <label>Redução de Dano</label> <input type="number" name="rd"> </div>
+                 <div class="stat-box"> <label for="bonus-prof">Bônus de Prof.</label> <input type="number" value=2 id="bonus-prof" name="bonus-prof" readonly=true> </div>
+                 <div class="stat-box"> <label for="iniciativa">Iniciativa</label> <input type="number" name="iniciativa"> </div>
+                 <div class="stat-box"> <label for="deslocamento">Deslocamento</label> <input type="text" name="deslocamento"> </div>
+                 <div class="stat-box"> <label for="rd">Redução de Dano</label> <input type="number" name="rd"> </div>
+                 <div class="stat-box"> <label for="tamanho">Tamanho</label> <select>
+                    <option value="minúsculo">Minúsculo</option>
+                    <option value="pequeno">Pequeno</option>
+                    <option value="médio" selected>Médio</option>
+                    <option value="grande">Grande</option>
+                    <option value="enorme">Enorme</option>
+                    <option value="imenso">Imenso</option>
+                 </select></div>
+                 <div class="stat-box"> <label for="idade">Idade</label> <input type="number" name="idade">Anéis</div>
             </div>
 
             <div class="skills-proficiencies" id="skill-list">
@@ -474,6 +483,7 @@
 
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-confirm.min.js"></script>
+    <script src="js/autosize.min.js"></script>
     <script src="js/lz-string.min.js"></script>
     <script src="js/automations.js"></script>
     <script src="js/main.js"></script>

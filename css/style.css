@@ -72,7 +72,9 @@ input[type="text"], input[type="number"], textarea {
 input[type="number"] { width: 80px; }
 input.very-small-input { width: 50px; } /* Para campo Nível */
 input[type="checkbox"] { margin-right: 5px; vertical-align: middle; }
-textarea { resize: vertical; }
+textarea {
+    resize: vertical;
+}
 .field-group { margin-bottom: 10px; }
 .field-group.inline { display: inline-block; margin-right: 15px; vertical-align: top; }
 .field-group.inline label { display: inline-block; margin-right: 5px; }
@@ -157,7 +159,7 @@ label.sub-label { font-size: 0.75em; font-weight: normal; margin-top: 2px; displ
 }
 
 .resources { flex: 1; min-width: 200px; display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px;} /* Ajuste para empilhar Catarse/Ênfase */
-.point-box { width: 230px; border: 1px solid #ddd; padding: 10px; text-align: center; }
+.point-box { width: 250px; border: 1px solid #ddd; padding: 10px; text-align: center; }
 .point-box label { margin-bottom: 8px; display: block; }
 .point-box input { width: 70px; margin: 0 5px; text-align: center; }
 

@@ -102,7 +102,7 @@ $("#calc-vida").on('click', function(){
             <div><label for="ocultista">Nv. Ocultista</label> <input name="ocultista" type="number" value=0></div>
             
             <div><label for="tora">Tôra?</label> <input type="checkbox" name="tora"></div>
-            <div><label for="aethe">Aetheridium?</label> <input type="checkbox" name="aethe"></div>
+            <div><label for="aethe">Aetherideo?</label> <input type="checkbox" name="aethe"></div>
             <div><label for="ances-drag">Trilha Herdeiro Ancestral Dracônico?</label> <input type="checkbox" name="ances-drag"></div>
             <div><label for="bencao">Benção Corpo São e Mente Sã?</label> <input type="checkbox" name="bencao"></div>
         </form>`,

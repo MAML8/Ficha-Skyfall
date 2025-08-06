@@ -6,6 +6,7 @@ Para usar, você pode apenas acessar direto o pages deste repositório: [aqui](h
 ## Funcionamento do site:
 [JQuery](https://jquery.com/) para mais ágil alteração do html.  
 [JQuery.confirm](https://craftpip.github.io/jquery-confirm/) para popups mais bonitos.  
+[Autosize](https://www.jacklmoore.com/autosize/) para áreas de texto redimensionarem automáticamente.
 [LZ-String](https://www.npmjs.com/package/lz-string) para compactação de jsons.
 
 O site funciona lendo todas as informações do forms, guardando elas num JSON e o compactando e salvando no armazenamento local.

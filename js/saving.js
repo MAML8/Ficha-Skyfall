@@ -169,13 +169,13 @@ $(function(){
                 if(key === "habilidades"){
                     value.forEach(function(obje){
                         let $onde = $("#mais-habilidade").parent();
-                        if(obje['tags'].includes("truque")){
+                        if(obje['tags'].toUpperCase().includes("TRUQUE")){
                             $onde = $("#mais-truque").parent();
-                        } else if(obje['tags'].includes("superficial")){
+                        } else if(obje['tags'].toUpperCase().includes("SUPERFICIAL")){
                             $onde = $("#mais-superficial").parent();
-                        } else if(obje['tags'].includes("rasa")){
+                        } else if(obje['tags'].toUpperCase().includes("RASA")){
                             $onde = $("#mais-rasa").parent();
-                        } else if(obje['tags'].includes("profunda")){
+                        } else if(obje['tags'].toUpperCase().includes("PROFUNDA")){
                             $onde = $("#mais-profunda").parent();
                         }
                         nova_habilidade($onde, obje);
@@ -214,6 +214,7 @@ $(function(){
                 }
             }
         });
+        $("#bonus-prof").val(bonus_de_proficiência());
 
         if(alert) $.alert("Ficha carregada com sucesso!");
     }
@@ -283,4 +284,5 @@ $(function(){
     });
 
     auto_load_from_url();
+    autosize($('textarea'));
 });
