@@ -13,7 +13,9 @@ body {
     color: #333;
     overflow: visible;
 }
-
+button{
+    cursor: pointer;
+}
 #character-sheet {
     overflow: visible;
     background-color: #fff;
@@ -372,7 +374,7 @@ input[type="checkbox"] {
 }
 
 img.icon{
-    width: 30px;
+    width: 35px;
 }
 .ability-header .icon {
     font-size: 1.2em;

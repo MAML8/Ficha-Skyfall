@@ -162,16 +162,17 @@ function nova_habilidade(onde, content, elimina=false){
                     ((content['efeito'] != "") ? ('<p><strong>Efeito: </strong>'+ content['efeito']+'</p>') : '')+
                     ((content['especial'] != "") ? ('<p><strong>Especial: </strong>'+ content['especial']+'</p>') : '')+
                 '</div>';
-    for(i = 1; i<=Math.round(content['quant-modificacao']); i++){
-        card += '<div class="ability-upgrade">'+
-            '<span class="icon">▷</span>'+
-            '<span class="upgrade-cost">+'+content['mod'+i+'-custo']+' '+content['mod'+i+'-p'].toUpperCase()+'</span>'+
-            '<span class="upgrade-type">['+content['mod'+i+'ifica'].toUpperCase()+']</span>';
-        for(j = 1; j<=Math.round(content['quant-mod'+i]); j++){
-            card += '<p class="upgrade-desc"><strong>'+content['mod'+i+'-prop'+j]+':</strong> '+content['mod'+i+'-desc'+j]+'</p>';
-        }
-        card+='</div>';
-    }
+    content.modificacoes.forEach(function(mod){
+        card += `<div class="ability-upgrade"
+                    <span class="icon">▷</span>
+                    <span class="upgrade-cost">+${mod.custo != '' ? mod.custo : 0} ${mod.p}</span>
+                    <span class="upgrade-type">[${mod.modifica.toUpperCase()}]</span>`;
+        if(mod.nome!='') card += ` <span class="upgrade-type">(${mod.nome})</span>`;
+        mod.texto.forEach(function(prop){
+            card += `<p class="upgrade-desc"><strong>${prop.campo}:</strong> ${prop.desc}</p>`;
+        });
+        card += '</div>';
+    });
 
     card += '</div>';
     onde.before(card);
@@ -184,9 +185,32 @@ $('.abilities').on('click', '.edit-habilidade', function(){
     edit_habilidade($(this).closest('.ability-card'), $(this).parent().find('.saved-ability').val().replaceAll("||", "\""));
 })
 
-function mod_mais(quant_mod, quant_mods){
-    let retorno = `
-        <div><select name="mod${quant_mod}-prop${quant_mods}" id="mod${quant_mod}-prop${quant_mods}">
+function mod_mais(){
+    return `<div class="ability-upgrade">
+                    <h3>Modificação: </h3> <button type="button" class="mod-menos">-</button>
+                    <span style="display: flex; gap: 5px;"><label>nome: </label> <input type="text" name="nome-mod[]" style="width: 90%"> </span>
+                    <span style="display: flex; gap: 100px;"> <label for="mod-custo[]">Custo</label> <label for="modifica[]">Modificação</label> </span>
+                    <span><input type="number" name="mod-custo[]"></span>
+                    <span><select name="mod-p[]"> <option value="PE">PE</option> <option value="PC">PC</option> </select></span>
+                    <span><input type="text" name="modifica[]" size=30></span>
+                    <div><select name="mod-prop[]">
+                            <option value="Alcance">Alcance</option>
+                            <option value="Alvo">Alvo</option>
+                            <option value="Duração">Duração</option>
+                            <option value="Ataque">Ataque</option>
+                            <option value="Gatilho">Gatilho</option>
+                            <option value="Acerto">Acerto</option>
+                            <option value="Erro">Erro</option>
+                            <option value="Efeito">Efeito</option>
+                            <option value="Especial">Especial</option>
+                        </select>:<textarea name="mod-desc[]"></textarea></div>
+                    <button type="button" class="mais-mod">+</button>
+                </div>`;
+}
+
+function prop_mod_mais(){
+    return `
+        <div><select name="mod-prop[]"">
             <option value="Alcance">Alcance</option>
             <option value="Alvo">Alvo</option>
             <option value="Duração">Duração</option>
@@ -196,12 +220,35 @@ function mod_mais(quant_mod, quant_mods){
             <option value="Erro">Erro</option>
             <option value="Efeito">Efeito</option>
             <option value="Especial">Especial</option>
-        </select>:<textarea name="mod${quant_mod}-desc${quant_mods}" id="mod${quant_mod}-desc${quant_mods}"></textarea>
+        </select>:<textarea name="mod-desc[]"></textarea>
+        <button class="mod-menos">-</button></div>
     `;
-    if(quant_mods>1)
-        retorno += `<button id="mod${quant_mod}-menos${quant_mod}">-</button>`;
-    retorno += '</div>';
-    return retorno;
+}
+
+function new_prop($mod, value){
+    if($mod.find('[name="mod-desc[]"]').first().val() == ""){
+        $mod.find('[name="mod-prop[]"]').val(value['campo']);
+        $mod.find('[name="mod-desc[]"]').val(value['desc']);
+    } else {
+        const $new = $(prop_mod_mais());
+        $new.find('[name="mod-prop[]"]').val(value['campo']);
+        $new.find('[name="mod-desc[]"]').val(value['desc']);
+        $mod.find('.mais-mod').before($new);
+    }
+}
+
+function new_modificacao(value){
+    const $new = $(mod_mais());
+
+    $new.find('[name="nome-mod[]"]').val(value['nome']);
+    $new.find('[name="mod-custo[]"]').val(value['custo']);
+    $new.find('[name="mod-p[]"]').val(value['p']);
+    $new.find('[name="modifica[]"]').val(value['modifica']);
+    value.texto.forEach(function(prop){
+        new_prop($new, prop);
+    });
+
+    return $new;
 }
 
 function edit_habilidade(onde, save=null){
@@ -223,7 +270,7 @@ function edit_habilidade(onde, save=null){
             '</div>'+
             '<label for="tags">Descritores:</label><input type="text" name="tags" id="tags" placeholder="Separe por vírgula (ex: ELFE,INVERNO,ATAQUE)">'+
             '<div class="ability-body">'+
-                '<h2>Propriedades</h2>'+
+                '<h2>texto</h2>'+
                 '<label for="alcance">Alcance:</label> <input type="text" name="alcance" id="alcance" placeholder="9m (6q)">'+
                 '<label for="alvo">Alvo:</label> <input type="text" name="alvo" id="alvo" placeholder="1 criatura">'+
                 '<label for="duracao">Duração:</label> <input type="text" name="duracao" id="duracao" placeholder="instantânea">'+
@@ -232,15 +279,14 @@ function edit_habilidade(onde, save=null){
             '</div>'+
             '<div class="ability-body">'+
                 '<h2>Efeitos</h2>'+
-                '<label for="acerto">Acerto:</label> <input type="text" name="acerto" id="acerto" placeholder="causa 2d6 de dano ÍGNEO">'+
-                '<label for="erro">Erro:</label> <input type="text" name="erro" id="erro" placeholder="você dança a egípcia">'+
-                '<label for="efeito">Efeito:</label> <input type="text" name="efeito" id="efeito" placeholder="chamas">'+
-                '<label for="especial">Especial:</label> <input type="text" name="especial" id="especial" placeholder="essa habilidade sofre os efeitos de dançar o nordíco">'+
+                '<label for="acerto">Acerto:</label> <textarea name="acerto" id="acerto" placeholder="causa 2d6 de dano ÍGNEO"></textarea>'+
+                '<label for="erro">Erro:</label> <textarea name="erro" id="erro" placeholder="você dança a egípcia"></textarea>'+
+                '<label for="efeito">Efeito:</label> <textarea name="efeito" id="efeito" placeholder="chamas"></textarea>'+
+                '<label for="especial">Especial:</label> <textarea name="especial" id="especial" placeholder="essa habilidade sofre os efeitos de dançar o nordíco"></textarea>'+
             '</div>'+
             '<div>'+
                 '<h2>Modificações</h2>'+
                 '<button type="button" id="mais-modificacao">+</button>'+
-                '<input type="hidden" id="quant-modificacao" name="quant-modificacao" value=0>'+
             '</div>'+
         '</form>',
         buttons: {
@@ -248,13 +294,34 @@ function edit_habilidade(onde, save=null){
                 text: "Salvar",
                 btnClass: "btn-green",
                 action: function(){
-                    let arr = this.$content.find('form').serializeArray();
+                    let arr = this.$content.find('form').not(this.$content.find('.ability-upgrade input, .ability-upgrade select, .ability-upgrade textarea')).serializeArray();
                     let obje = {};
                     $.each(arr, function(index, field) {
                         if(field.name=="tags"){
                             obje[field.name] = field.value.toUpperCase();
                         }
                         obje[field.name] = field.value;
+                    });
+                    obje.modificacoes = [];
+                    this.$content.find(".ability-upgrade").each(function(){
+                        const $mod = $(this);
+
+                        let entry = {
+                            'nome': $mod.find('[name="nome-mod[]"]').val(),
+                            'custo': $mod.find('[name="mod-custo[]"]').val(),
+                            'p': $mod.find('[name="mod-p[]"]').val(),
+                            'modifica': $mod.find('[name="modifica[]"]').val(),
+                            'texto': []
+                        }
+                        $mod.find("div").each(function(){
+                            const $prop = $(this);
+                            const prop = {
+                                'campo': $prop.find('[name="mod-prop[]"]').val(),
+                                'desc': $prop.find('[name="mod-desc[]"]').val()
+                            }
+                            entry.texto.push(prop);
+                        });
+                        obje.modificacoes.push(entry);
                     });
                     console.log(obje);
                     nova_habilidade(onde, obje, save!=null);
@@ -266,33 +333,17 @@ function edit_habilidade(onde, save=null){
         },
         onContentReady: function () {
             let cont = this.$content;
-            cont.find('#mais-modificacao').on("click", function(e){
-                let quant_mod = Math.round(cont.find('#quant-modificacao').val()) + 1;
-                $(this).before('<div class="ability-upgrade">'+
-                    '<h3>Mod'+quant_mod+'</h3> <button class="edit" type="button" id="mod'+quant_mod+'-menos">-</button>'+
-                    '<span><label for="mod'+quant_mod+'-custo">Custo</label> <label for="mod'+quant_mod+'ifica">Modificação</label><\span>'+
-                    '<span><input type="number" name="mod'+quant_mod+'-custo" id="mod'+quant_mod+'-custo"></span>'+
-                    '<span><select name="mod'+quant_mod+'-p" id="mod'+quant_mod+'-p"> <option value="pe">pe</option> <option value="pc">pc</option> </select></span>'+
-                    '<span><input type="text" name="mod'+quant_mod+'ifica" id="mod'+quant_mod+'ifica" size=30></span>'+
-                    mod_mais(quant_mod, 1)+
-                    '<button type="button" id="mais-mod'+quant_mod+'">+</button>'+
-                    '<input type="hidden" id="quant-mod'+quant_mod+'" name="quant-mod'+quant_mod+'" value=1>'+
-                '</div>');
-                cont.find('#mod'+quant_mod+'-menos').on("click", function(){
-                    $(this).parent().remove();
-                    cont.find('#quant-modificacao').val(Math.round(cont.find('#quant-modificacao').val())-1);
-                });
-                cont.find('#mais-mod'+quant_mod).on("click", function(){
-                    let quant_mods = Math.round(cont.find('#quant-mod'+quant_mod).val()) + 1;
-                    $(this).before(mod_mais(quant_mod, quant_mods));
-                    cont.find('#mod'+quant_mod+'-menos'+quant_mods).on("click", function(){
-                        $(this).parent().remove();
-                        cont.find('#quant-mod'+quant_mod).val(Math.round(cont.find('#quant-mod'+quant_mod).val())-1);
-                    });
-                    cont.find('#quant-mod'+quant_mod).val(quant_mods);
-                });
-                cont.find('#quant-modificacao').val(quant_mod);
+            cont.find('#mais-modificacao').on("click", function(){
+                const $aux = $(this).before(mod_mais());
+                autosize($aux.find('textarea'));
             });
+            cont.on('click', '.mod-menos', function(){
+                $(this).parent().remove();
+            })
+            cont.on('click', '.mais-mod', function(){
+                const $aux = $(this).before(prop_mod_mais());
+                autosize($aux.find('textarea'));
+            })
 
             if(save){
                 let obje = JSON.parse(save);
@@ -309,22 +360,12 @@ function edit_habilidade(onde, save=null){
                 cont.find('#erro').val(obje['erro']);
                 cont.find('#efeito').val(obje['efeito']);
                 cont.find('#especial').val(obje['especial']);
-                modi = 0;
-                while(modi<obje['quant-modificacao']){
-                    cont.find('#mais-modificacao').trigger("click");
-                    modi++;
-                    cont.find('#mod'+modi+'-custo').val(obje['mod'+modi+'-custo']);
-                    cont.find('#mod'+modi+'-p').val(obje['mod'+modi+'-p']);
-                    cont.find('#mod'+modi+'ifica').val(obje['mod'+modi+'ifica']);
-                    modj = 0
-                    while(modj<obje['quant-mod'+modi]){
-                        if(modj > 0) cont.find('#mais-mod'+modi).trigger("click");
-                        modj++;
-                        cont.find('#mod'+modi+'-prop'+modj).val(obje['mod'+modi+'-prop'+modj]);
-                        cont.find('#mod'+modi+'-desc'+modj).val(obje['mod'+modi+'-desc'+modj]);
-                    }
-                }
+                obje['modificacoes'].forEach(function(aux){
+                    cont.find('#mais-modificacao').before(new_modificacao(aux));
+                });
             }
+
+            autosize(cont.find('textarea'));
         }
     });
 
@@ -344,6 +385,7 @@ $('.page-nav').on('click', '.nav-button', function(){
 
     $this.addClass('active');
     $(targetPanelId).addClass('active');
+    autosize($(targetPanelId).find('textarea'));
 });
 
 $('.hide-button').on('click', function(){

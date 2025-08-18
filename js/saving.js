@@ -12,6 +12,8 @@ $(function(){
         $('button[name="atk-menos"]').closest(".attack-entry").remove();
         $('button[name="menos-item"]').closest(".inventory-item").remove();
         $("#character-sheet")[0].reset();
+        
+        autosize($('textarea'));
     }
 
     function clearData(e) {
@@ -30,22 +32,7 @@ $(function(){
         })
     }
 
-    function getFormData() {/*
-        const formDataArray = $form.serializeArray();
-
-        let dataObject = {};
-        $.each(formDataArray, function(index, field) {
-            if(field.name.startsWith("saved-ability")){
-                dataObject[field.name] = JSON.parse(field.value.replaceAll("||", "\""));
-                return;
-            }
-            if(exclusions.includes(field.name)){
-                return;
-            }
-            dataObject[field.name] = field.value;
-        });
-
-        return dataObject;*/
+    function getFormData() {
         let dataObject = {};
         $form.find('input, textarea, select').not($("#skill-list").find('[name="prof-aptidao[]"], [name="nome-aptidao[]"], [name="val-aptidao[]"]')).not($(".inventory-item input, .attack-entry input, .saved-ability")).each(function(){
             let $el = $(this);
@@ -216,6 +203,7 @@ $(function(){
         });
         $("#bonus-prof").val(bonus_de_proficiência());
 
+        autosize($('textarea'));
         if(alert) $.alert("Ficha carregada com sucesso!");
     }
 
@@ -284,5 +272,4 @@ $(function(){
     });
 
     auto_load_from_url();
-    autosize($('textarea'));
 });
