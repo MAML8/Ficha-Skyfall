@@ -89,12 +89,12 @@ $(function(){
             dataObject.habilidades.push(entry);
         })
 
+        dataObject = applyVersion(dataObject);
         return dataObject;
     }
 
     function saveData(alert = true) {
         const dataObject = getFormData();
-        applyVersion(dataObject);
 
         localStorage.setItem(localStorageKeyPrefix+dataObject['char-name'], LZString.compressToUTF16(JSON.stringify(dataObject)));
 

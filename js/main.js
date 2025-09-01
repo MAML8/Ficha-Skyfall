@@ -294,9 +294,12 @@ function edit_habilidade(onde, save=null){
                 text: "Salvar",
                 btnClass: "btn-green",
                 action: function(){
-                    let arr = this.$content.find('form').not(this.$content.find('.ability-upgrade input, .ability-upgrade select, .ability-upgrade textarea')).serializeArray();
+                    let arr = this.$content.find('form').serializeArray();
                     let obje = {};
                     $.each(arr, function(index, field) {
+                        if(field.name[field.name.length-1]==']'){
+                            return;
+                        }
                         if(field.name=="tags"){
                             obje[field.name] = field.value.toUpperCase();
                         }
